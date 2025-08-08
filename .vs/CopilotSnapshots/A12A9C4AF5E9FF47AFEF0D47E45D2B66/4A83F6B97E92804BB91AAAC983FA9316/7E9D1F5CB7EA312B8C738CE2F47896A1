@@ -1,0 +1,100 @@
+﻿using ExcelReader.RyanW84.Controller;
+using ExcelReader.RyanW84.Data;
+using ExcelReader.RyanW84.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+namespace ExcelReader.RyanW84
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var host = CreateHostBuilder(args).Build();
+            ProcessExcelData(host.Services);
+        }
+
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureServices(
+                    (hostContext, services) =>
+                    {
+                        var connectionString = hostContext.Configuration.GetConnectionString(
+                            "DefaultConnection"
+                        );
+
+                        services.AddDbContext<ExcelReaderDbContext>(options =>
+                            options.UseSqlServer(connectionString)
+                        );
+                        services.AddScoped<ExcelBeginnerController>();
+                        services.AddScoped<AnyExcelReadController>();
+                        services.AddScoped<CsvController>();
+                        services.AddScoped<PdfController>();
+                        services.AddScoped<PdfFormController>();
+                        services.AddScoped<ReadFromCsv>();
+                        services.AddScoped<CreateTableFromCSV>();
+                        services.AddScoped<CreateTableFromAnyExcel>();
+                        services.AddScoped<CreateTableFromPdfForm>();
+                        services.AddScoped<ReadFromPdf>();
+                        services.AddScoped<ReadFromPdfForm>();
+                        services.AddScoped<PdfFormController>();
+                        services.AddScoped<WriteToPdfForm>();
+                        services.AddScoped<PdfFormWriteController>();
+                    }
+                );
+
+        private static void ProcessExcelData(IServiceProvider services)
+        {
+            void RunInScope(Action<IServiceProvider> action)
+            {
+                using var scope = services.CreateScope();
+                action(scope.ServiceProvider);
+            }
+
+            RunInScope(sp =>
+            {
+                var context = sp.GetRequiredService<ExcelReaderDbContext>();
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+            });
+
+            RunInScope(sp =>
+            {
+                var context = sp.GetRequiredService<ExcelReaderDbContext>();
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                var excelBeginnerController = sp.GetRequiredService<ExcelBeginnerController>();
+                excelBeginnerController.AddDataFromExcel();
+            });
+
+            RunInScope(sp =>
+            {
+                var anyExcelReadController = sp.GetRequiredService<AnyExcelReadController>();
+                anyExcelReadController.AddDataFromExcel();
+            });
+
+            RunInScope(sp =>
+            {
+                var csvController = sp.GetRequiredService<CsvController>();
+                csvController.AddDataFromCsv();
+            });
+
+            RunInScope(sp =>
+            {
+                var PdfController = sp.GetRequiredService<PdfController>();
+                PdfController.AddDataFromPdf();
+            });
+
+			RunInScope(sp =>
+			{
+				var pdfFormController = sp.GetRequiredService<PdfFormController>();
+				// Provide the PDF form file path here
+				var filePath = @"C:\Users\Ryanw\OneDrive\Documents\GitHub\Excel-Reader\Data\FillablePDF.pdf";
+				pdfFormController.AddDataFromPdfForm(filePath);
+			});
+		}
+    }
+}

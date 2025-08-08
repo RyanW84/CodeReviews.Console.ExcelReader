@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using ExcelReader.RyanW84.Controller;
+
+namespace ExcelReader.RyanW84.UI;
+
+public class PdfFormWriteUI
+{
+    private readonly PdfFormWriteController _controller;
+
+    public PdfFormWriteUI(PdfFormWriteController controller)
+    {
+        _controller = controller;
+    }
+
+    public void Run()
+    {
+        Console.WriteLine("Enter the path to the PDF form file (or press Enter for default):");
+        var filePath = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(filePath))
+        {
+            filePath = @"C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Data\\FillablePDF.pdf";
+        }
+
+        var fieldValues = new Dictionary<string, string>();
+        Console.WriteLine("Enter PDF form field names and values. Type 'done' as the field name to finish.");
+        while (true)
+        {
+            Console.Write("Field name: ");
+            var fieldName = Console.ReadLine();
+            if (string.Equals(fieldName, "done", StringComparison.OrdinalIgnoreCase))
+                break;
+            if (string.IsNullOrWhiteSpace(fieldName))
+                continue;
+            Console.Write("Field value: ");
+            var fieldValue = Console.ReadLine() ?? string.Empty;
+            fieldValues[fieldName] = fieldValue;
+        }
+
+        _controller.WriteDataToPdfForm(filePath, fieldValues);
+    }
+}

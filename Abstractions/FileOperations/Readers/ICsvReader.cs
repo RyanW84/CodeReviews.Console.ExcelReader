@@ -1,0 +1,18 @@
+using System.Data;
+
+using ExcelReader.RyanW84.Abstractions.Base;
+
+namespace ExcelReader.RyanW84.Abstractions.FileOperations.Readers;
+
+/// <summary>
+/// Interface for CSV file reading operations
+/// </summary>
+public interface ICsvReader : IFileReader<DataTable>
+{
+    /// <summary>
+    /// Gets the number of columns in the CSV file
+    /// </summary>
+    /// <param name="filePath">Path to the CSV file</param>
+    /// <returns>Number of columns</returns>
+    Task<int> GetColumnCountAsync(string filePath);
+}

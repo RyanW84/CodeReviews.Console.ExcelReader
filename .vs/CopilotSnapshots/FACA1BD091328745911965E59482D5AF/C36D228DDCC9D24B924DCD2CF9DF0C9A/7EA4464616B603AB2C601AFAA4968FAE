@@ -1,0 +1,48 @@
+﻿using System.Data;
+using ExcelReader.RyanW84.Services;
+using ExcelReader.RyanW84.UI;
+
+namespace ExcelReader.RyanW84.Controller;
+
+public class PdfFormController
+{
+    private readonly ReadFromPdfForm _readFromPdfForm;
+    private readonly WriteToPdfForm _writeToPdfForm;
+    private readonly WritePdfFormDataToDatabaseService _writePdfFormDataToDatabaseService;
+    private readonly PdfFormWriteUI _pdfFormWriteUI;
+
+    public PdfFormController(
+        ReadFromPdfForm readFromPdfForm,
+        WriteToPdfForm writeToPdfForm,
+        WritePdfFormDataToDatabaseService writePdfFormDataToDatabaseService,
+        PdfFormWriteUI pdfFormWriteUI)
+    {
+        _readFromPdfForm = readFromPdfForm;
+        _writeToPdfForm = writeToPdfForm;
+        _writePdfFormDataToDatabaseService = writePdfFormDataToDatabaseService;
+        _pdfFormWriteUI = pdfFormWriteUI;
+    }
+
+    public void AddOrUpdateDataFromPdfForm(string filePath)
+    {
+		pdfFilePath = PromptForFilePath(pdfFilePath , "PDF form file");
+		// 1. Read existing fields from PDF
+		var fields = _readFromPdfForm.ReadFormFields(filePath);
+        if (fields.Count == 0)
+        {
+            Console.WriteLine("No form fields found or file not found.");
+            return;
+        }
+
+        // 2. Pass fields to UI for user to update
+        var updatedFields = _pdfFormWriteUI.GatherUpdatedFields(fields);
+
+        // 3. Write updated fields back to PDF form
+        _writeToPdfForm.WriteFormFields(filePath, updatedFields);
+
+        // 4. Add updated data to the database
+        _writePdfFormDataToDatabaseService.Write(updatedFields);
+
+        Console.WriteLine("PDF form updated and data imported to SQL table.");
+    }
+}

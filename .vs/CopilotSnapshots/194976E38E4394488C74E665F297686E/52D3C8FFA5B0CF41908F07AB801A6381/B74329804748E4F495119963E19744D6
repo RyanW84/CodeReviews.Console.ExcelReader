@@ -1,0 +1,122 @@
+﻿using System.Data;
+using ExcelReader.RyanW84.Data;
+using ExcelReader.RyanW84.Helpers;
+using ExcelReader.RyanW84.Models;
+using ExcelReader.RyanW84.Services;
+using Microsoft.Extensions.Configuration;
+
+namespace ExcelReader.RyanW84.Controller;
+
+public class ExcelBeginnerController(
+    IConfiguration configuration, 
+    ExcelReaderDbContext dbContext,
+    UserNotifier userNotifier
+)
+{
+    private readonly IConfiguration _configuration = configuration;
+    private readonly ExcelReaderDbContext _dbContext = dbContext;
+    private readonly UserNotifier _userNotifier = userNotifier;
+
+    public async Task AddDataFromExcel()
+    {
+        try
+        {
+            _userNotifier.ShowInfo("Starting ExcelBeginner import...");
+
+            // Read data from Excel
+            var dataTable = ReadExcelData();
+            if (dataTable == null || dataTable.Rows.Count == 0)
+            {
+                _userNotifier.ShowError("No data found in the Excel file.");
+                return;
+            }
+
+            _userNotifier.ShowInfo($"Read {dataTable.Rows.Count} rows and {dataTable.Columns.Count} columns from ExcelBeginner sheet.");
+
+            // Convert and validate data
+            var excelBeginners = ConvertDataTableToExcelBeginners(dataTable);
+            if (excelBeginners.Count == 0)
+            {
+                _userNotifier.ShowError("No valid data rows found to import.");
+                return;
+            }
+
+            // Save to database
+            await SaveToDatabase(excelBeginners);
+
+            _userNotifier.ShowSuccess($"ExcelBeginner import complete. Imported {excelBeginners.Count} records.");
+        }
+        catch (FileNotFoundException ex)
+        {
+            _userNotifier.ShowError($"Excel file not found: {ex.Message}");
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            _userNotifier.ShowError($"Access denied: {ex.Message}. Please check file permissions.");
+        }
+        catch (Exception ex)
+        {
+            _userNotifier.ShowError($"An error occurred during Excel import: {ex.Message}");
+        }
+    }
+
+    private DataTable ReadExcelData()
+    {
+        const string filePath = @"C:\Users\Ryanw\OneDrive\Documents\GitHub\Excel-Reader\Data\ExcelBeginner.xlsx";
+        
+        using var package = ExcelBeginnerService.ExcelPackage();
+        return ExcelBeginnerService.ReadFromExcel(package);
+    }
+
+    private async Task SaveToDatabase(List<ExcelBeginner> excelBeginners)
+    {
+        _dbContext.ExcelBeginner.AddRange(excelBeginners);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    private List<ExcelBeginner> ConvertDataTableToExcelBeginners(DataTable dataTable)
+    {
+        var excelBeginners = new List<ExcelBeginner>();
+
+        foreach (DataRow row in dataTable.Rows)
+        {
+            try
+            {
+                var excelBeginner = new ExcelBeginner
+                {
+                    Name = GetStringValue(row, "Name"),
+                    Age = GetIntValue(row, "age"),
+                    Sex = GetStringValue(row, "sex"),
+                    Colour = GetStringValue(row, "colour"),
+                    Height = GetStringValue(row, "height")
+                };
+
+                // Validate required fields
+                if (string.IsNullOrWhiteSpace(excelBeginner.Name))
+                {
+                    _userNotifier.ShowWarning($"Skipping row with empty Name field.");
+                    continue;
+                }
+
+                excelBeginners.Add(excelBeginner);
+            }
+            catch (Exception ex)
+            {
+                _userNotifier.ShowWarning($"Skipping invalid row: {ex.Message}");
+            }
+        }
+
+        return excelBeginners;
+    }
+
+    private static string GetStringValue(DataRow row, string columnName)
+    {
+        return row[columnName]?.ToString()?.Trim() ?? string.Empty;
+    }
+
+    private static int GetIntValue(DataRow row, string columnName)
+    {
+        var value = row[columnName]?.ToString()?.Trim();
+        return int.TryParse(value, out var result) ? result : 0;
+    }
+}

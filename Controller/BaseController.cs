@@ -1,0 +1,84 @@
+using ExcelReader.RyanW84.Abstractions.Services;
+
+namespace ExcelReader.RyanW84.Controller;
+
+/// <summary>
+/// Base controller class following SOLID principles and providing common functionality
+/// </summary>
+public abstract class BaseController(INotificationService notificationService)
+{
+    protected readonly INotificationService NotificationService =
+        notificationService ?? throw new ArgumentNullException(nameof(notificationService));
+
+    /// <summary>
+    /// Template method pattern for handling operations with consistent error handling
+    /// </summary>
+    /// <param name="operation">The operation to execute</param>
+    /// <param name="operationName">Name of the operation for error reporting</param>
+    /// <returns>True if operation succeeded, false otherwise</returns>
+    protected async Task<bool> ExecuteOperationAsync(Func<Task> operation, string operationName)
+    {
+        try
+        {
+            await operation();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError($"Error in {operationName}: {ex.Message}");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Template method pattern for handling operations with return values
+    /// </summary>
+    /// <typeparam name="T">Return type</typeparam>
+    /// <param name="operation">The operation to execute</param>
+    /// <param name="operationName">Name of the operation for error reporting</param>
+    /// <param name="defaultValue">Default value to return on error</param>
+    /// <returns>Operation result or default value on error</returns>
+    protected async Task<T> ExecuteOperationAsync<T>(
+        Func<Task<T>> operation,
+        string operationName,
+        T defaultValue = default!
+    )
+    {
+        try
+        {
+            return await operation();
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError($"Error in {operationName}: {ex.Message}");
+            return defaultValue;
+        }
+    }
+
+    /// <summary>
+    /// Validates input parameters following the fail-fast principle
+    /// </summary>
+    /// <param name="value">Value to validate</param>
+    /// <param name="parameterName">Parameter name for error reporting</param>
+    /// <exception cref="ArgumentNullException">Thrown when value is null</exception>
+    protected static void ValidateNotNull(object? value, string parameterName)
+    {
+        if (value == null)
+            throw new ArgumentNullException(parameterName);
+    }
+
+    /// <summary>
+    /// Validates string input parameters
+    /// </summary>
+    /// <param name="value">String value to validate</param>
+    /// <param name="parameterName">Parameter name for error reporting</param>
+    /// <exception cref="ArgumentException">Thrown when string is null or empty</exception>
+    protected static void ValidateNotNullOrEmpty(string? value, string parameterName)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            throw new ArgumentException(
+                $"Parameter {parameterName} cannot be null or empty.",
+                parameterName
+            );
+    }
+}

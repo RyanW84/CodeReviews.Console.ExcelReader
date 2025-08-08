@@ -1,0 +1,107 @@
+﻿using System;
+using System.Collections.Generic;
+using ExcelReader.RyanW84.Controller;
+using ExcelReader.RyanW84.Services;
+using Spectre.Console;
+using System.Globalization;
+
+namespace ExcelReader.RyanW84.UI;
+
+public class PdfFormWriteUI
+{
+    private readonly PdfFormWriteController _controller;
+    private readonly ReadFromPdfForm _readFromPdfForm;
+
+    public PdfFormWriteUI(PdfFormWriteController controller, ReadFromPdfForm readFromPdfForm)
+    {
+        _controller = controller;
+        _readFromPdfForm = readFromPdfForm;
+    }
+
+    public void GatherInput()
+    {
+        var filePath = AnsiConsole.Ask<string>("\nEnter the path to the PDF form file (or press Enter for default):", @"C:\Users\Ryanw\OneDrive\Documents\GitHub\Excel-Reader\Data\FillablePDF.pdf");
+
+        var fields = _readFromPdfForm.ReadFormFields(filePath);
+        if (fields.Count == 0)
+        {
+            AnsiConsole.MarkupLine("[red]No form fields found or file not found.[/]");
+            return;
+        }
+
+        var fieldValues = new Dictionary<string, string>();
+        string? dobValue = fields.ContainsKey("DOB") ? fields["DOB"] : null;
+        AnsiConsole.MarkupLine("[yellow]Review and update PDF form fields:[/]");
+        foreach (var field in fields)
+        {
+            var fieldName = field.Key;
+            var currentValue = field.Value;
+            string newValue = currentValue;
+            bool update = AnsiConsole.Confirm($"Field: [green]{fieldName}[/] | Current Value: [yellow]{currentValue}[/] | Update?");
+            if (update)
+            {
+                if (fieldName.Equals("DOB", StringComparison.OrdinalIgnoreCase) || fieldName.ToLower().Contains("dob"))
+                {
+                    // Date validation
+                    newValue = AnsiConsole.Prompt(
+                        new TextPrompt<string>("Enter Date of Birth (dd-MM-yyyy):")
+                            .Validate(date => DateTime.TryParseExact(date, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _) ? ValidationResult.Success() : ValidationResult.Error("Invalid date format. Use dd-MM-yyyy."))
+                    );
+                    dobValue = newValue;
+                }
+                else if (fieldName.Equals("age", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Always try to calculate age from DOB if available
+                    if (!string.IsNullOrEmpty(dobValue) && DateTime.TryParseExact(dobValue, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dob))
+                    {
+                        var today = DateTime.Today;
+                        var age = today.Year - dob.Year;
+                        if (dob > today.AddYears(-age)) age--;
+                        newValue = age.ToString();
+                        AnsiConsole.MarkupLine($"[green]Calculated age from DOB: {newValue}[/]");
+                    }
+                    else
+                    {
+                        newValue = AnsiConsole.Prompt(
+                            new TextPrompt<string>("Enter age (number):")
+                                .Validate(age => int.TryParse(age, out _) ? ValidationResult.Success() : ValidationResult.Error("Invalid age. Enter a number."))
+                        );
+                    }
+                }
+                else if (fieldName.Equals("sex", StringComparison.OrdinalIgnoreCase))
+                {
+                    newValue = AnsiConsole.Prompt(
+                        new SelectionPrompt<string>()
+                            .Title("Select sex:")
+                            .AddChoices("Male", "Female", "Other")
+                    );
+                }
+                else if (fieldName.Equals("colour", StringComparison.OrdinalIgnoreCase))
+                {
+                    newValue = AnsiConsole.Prompt(
+                        new SelectionPrompt<string>()
+                            .Title("Select colour:")
+                            .AddChoices("White", "Black", "Asian", "African", "Other")
+                    );
+                }
+                else if (fieldName.Equals("wanted", StringComparison.OrdinalIgnoreCase))
+                {
+                    newValue = AnsiConsole.Prompt(
+                        new SelectionPrompt<string>()
+                            .Title("Is wanted?")
+                            .AddChoices("Yes", "No")
+                    );
+                }
+                else
+                {
+                    newValue = AnsiConsole.Ask<string>($"Enter new value for [green]{fieldName}[/] (leave blank to keep current):");
+                    if (string.IsNullOrWhiteSpace(newValue))
+                        newValue = currentValue;
+                }
+            }
+            fieldValues[fieldName] = newValue;
+        }
+
+        _controller.WriteDataToPdfForm(filePath, fieldValues);
+    }
+}

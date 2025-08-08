@@ -1,0 +1,148 @@
+﻿using System.Data;
+using System.Data.SqlClient;
+using ExcelReader.RyanW84.Data;
+using ExcelReader.RyanW84.Helpers;
+using ExcelReader.RyanW84.Services;
+using ExcelReader.RyanW84.UserInterface;
+using Microsoft.Extensions.Configuration;
+
+namespace ExcelReader.RyanW84.Controller;
+
+public class PdfFormWriteController(
+    IConfiguration configuration,
+    ExcelReaderDbContext dbContext,
+    ReadFromPdfForm readFromPdfForm,
+    WriteToPdfForm writeToPdfForm,
+    WritePdfFormDataToDatabaseService writePdfFormDataToDatabaseService,
+    PdfFormWriteUi pdfFormWriteUi,
+    TableExistenceService tableExistenceService,
+    UserNotifier userNotifier
+)
+{
+    private readonly IConfiguration _configuration = configuration;
+    private readonly ExcelReaderDbContext _dbContext = dbContext;
+    private readonly WriteToPdfForm _writeToPdfForm = writeToPdfForm;
+    private readonly ReadFromPdfForm _readFromPdfForm = readFromPdfForm;
+    private readonly WritePdfFormDataToDatabaseService _writePdfFormDataToDatabaseService =
+        writePdfFormDataToDatabaseService;
+    private readonly PdfFormWriteUi _pdfFormWriteUi = pdfFormWriteUi;
+    private readonly TableExistenceService _tableExistenceService = tableExistenceService;
+    private readonly UserNotifier _userNotifier = userNotifier;
+
+    // Orchestrator method for all PDF form write steps
+    public async Task UpdatePdfFormAndDatabaseAsync()
+    {
+        try
+        {
+            // 1. Get file path from user via UI class
+            const string defaultPath = @"C:\Users\Ryanw\OneDrive\Documents\GitHub\Excel-Reader\Data\FillablePDF.pdf";
+            var filePath = GetFilePath(defaultPath);
+
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                _userNotifier.ShowError("File path cannot be empty.");
+                return;
+            }
+
+            if (!File.Exists(filePath))
+            {
+                _userNotifier.ShowError($"File not found: {filePath}");
+                return;
+            }
+
+            // 2. Get existing field values from PDF
+            var existingFields = GetExistingFieldValues(filePath);
+            if (existingFields.Count == 0)
+            {
+                _userNotifier.ShowError("No form fields found or file not found.");
+                return;
+            }
+
+            // 3. Get updated field values from user interaction
+            var updatedFields = GetUpdatedFieldValues(existingFields);
+
+            // 4. Write updated fields to PDF form
+            await WriteDataToPdfFormAsync(filePath, updatedFields);
+
+            // 5. Write updated fields to database
+            await WriteDataToDatabaseAsync(updatedFields);
+
+            _userNotifier.ShowSuccess("PDF form and database updated successfully!");
+        }
+        catch (FileNotFoundException ex)
+        {
+            _userNotifier.ShowError($"PDF file not found: {ex.Message}");
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            _userNotifier.ShowError($"Access denied: {ex.Message}. Please check file permissions.");
+        }
+        catch (IOException ex)
+        {
+            _userNotifier.ShowError($"File I/O error: {ex.Message}. The PDF file may be in use by another application.");
+        }
+        catch (Exception ex)
+        {
+            _userNotifier.ShowError($"An unexpected error occurred: {ex.Message}");
+        }
+    }
+
+    // Keep synchronous version for backward compatibility
+    public void UpdatePdfFormAndDatabase()
+    {
+        UpdatePdfFormAndDatabaseAsync().GetAwaiter().GetResult();
+    }
+
+    public Dictionary<string, string> GetExistingFieldValues(string filePath)
+    {
+        var existingFields = _readFromPdfForm.ReadFormFields(filePath);
+        var result = new Dictionary<string, string>();
+        foreach (var field in existingFields)
+        {
+            result[field.Key] = field.Value ?? string.Empty;
+        }
+        return result;
+    }
+
+    public Dictionary<string, string> GetUpdatedFieldValues(Dictionary<string, string> fieldValues)
+    {
+        return _pdfFormWriteUi.GatherUpdatedFields(fieldValues);
+    }
+
+    public void WriteDataToPdfForm(string filePath, Dictionary<string, string> fieldValues)
+    {
+        _writeToPdfForm.WriteFormFields(filePath, fieldValues);
+        _dbContext.SaveChanges();
+    }
+
+    public async Task WriteDataToPdfFormAsync(string filePath, Dictionary<string, string> fieldValues)
+    {
+        await Task.Run(() => _writeToPdfForm.WriteFormFields(filePath, fieldValues));
+        _dbContext.SaveChanges();
+    }
+
+    public void EnsureTableExists(DataTable dataTable, SqlConnection connection)
+    {
+        _tableExistenceService.EnsureTableExists(dataTable, connection);
+    }
+
+    public void EnsureTableExists(DataTable dataTable)
+    {
+        _tableExistenceService.EnsureTableExists(dataTable);
+    }
+
+    public void WriteDataToDatabase(Dictionary<string, string> fieldValues)
+    {
+        _writePdfFormDataToDatabaseService.Write(fieldValues);
+    }
+
+    public async Task WriteDataToDatabaseAsync(Dictionary<string, string> fieldValues)
+    {
+        await Task.Run(() => _writePdfFormDataToDatabaseService.Write(fieldValues));
+    }
+
+    private string GetFilePath(string defaultPath)
+    {
+        return _pdfFormWriteUi.GetFilePath(defaultPath);
+    }
+}

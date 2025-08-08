@@ -1,0 +1,20 @@
+﻿using ExcelReader.RyanW84.Services;
+
+namespace ExcelReader.RyanW84.Controller;
+
+public class PdfFormWriteController
+{
+    private readonly WriteToPdfForm _writeToPdfForm;
+
+    public PdfFormWriteController(WriteToPdfForm writeToPdfForm)
+    {
+        _writeToPdfForm = writeToPdfForm;
+    }
+
+    public void WriteDataToPdfForm(string filePath, Dictionary<string, string> fieldValues)
+    {
+        Console.WriteLine($"Writing data to PDF form: {filePath}");
+        _writeToPdfForm.WriteFormFields(filePath, fieldValues);
+        Console.WriteLine("PDF form fields updated.");
+    }
+}

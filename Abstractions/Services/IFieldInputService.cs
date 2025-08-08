@@ -1,0 +1,20 @@
+using ExcelReader.RyanW84.Abstractions.Common;
+
+namespace ExcelReader.RyanW84.Abstractions.Services;
+
+/// <summary>
+/// Interface for field input services
+/// </summary>
+public interface IFieldInputService
+{
+    Task<Dictionary<string, string>> GatherUpdatedFieldsAsync(
+        Dictionary<string, string> existingFields, 
+        FileType fileType = FileType.Generic);
+    
+    Dictionary<string, string> GatherUpdatedFields(
+        Dictionary<string, string> existingFields, 
+        FileType fileType = FileType.Generic);
+
+    Task<string> GetFilePathAsync(string defaultPath, FileType fileType = FileType.Generic);
+    string GetFilePath(string defaultPath, FileType fileType = FileType.Generic);
+}

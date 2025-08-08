@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Controller",
+    "\\Data",
+    "\\Services",
+    "\\UserInterface"
+  ],
+  "SelectedNode": "\\Services\\DictionaryToDataTableConverter.cs",
+  "PreviewInSolutionExplorer": false
+}
