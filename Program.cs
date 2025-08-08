@@ -81,7 +81,7 @@ namespace ExcelReader.RyanW84
                         services.AddScoped<IDataTableService, DictionaryToDataTableConverter>();
                         services.AddScoped<IExcelWriteService, WriteToExcelService>();
                         
-                        // Data converter registration - replace 'CsvDataConverter' with your actual implementation class name
+                        // Data converter registration 
                         services.AddScoped<IDataConverter<List<string[]>, DataTable>, CsvToDataTableConverter>();
 
                         // File Reading Services with interfaces
