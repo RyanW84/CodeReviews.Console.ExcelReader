@@ -1,51 +1,45 @@
+using System.Data;
 using ExcelReader.RyanW84.Abstractions.Common;
+using ExcelReader.RyanW84.Abstractions.Core;
 using ExcelReader.RyanW84.Abstractions.FileOperations.Readers;
 using ExcelReader.RyanW84.Abstractions.Services;
 
-namespace ExcelReader.RyanW84.Services
+namespace ExcelReader.RyanW84.Services;
+
+/// <summary>
+/// CSV file reader focused solely on reading CSV files.
+/// Follows Single Responsibility Principle.
+/// </summary>
+public class CsvFileReader(
+	IFilePathService filePathManager ,
+	INotificationService userNotifier ,
+	ICsvParser csvParser
+	) : ICsvFileReader
 {
-    public class CsvFileReader : ICsvFileReader
+    private readonly IFilePathService _filePathManager =
+			filePathManager ?? throw new ArgumentNullException(nameof(filePathManager));
+    private readonly INotificationService _userNotifier = userNotifier ?? throw new ArgumentNullException(nameof(userNotifier));
+    private readonly ICsvParser _csvParser = csvParser ?? throw new ArgumentNullException(nameof(csvParser));
+
+	public async Task<List<string[]>> ReadCsvFile()
     {
-        private readonly IFilePathService _filePathService;
-        private readonly INotificationService _notificationService;
-
-        public CsvFileReader(IFilePathService filePathService, INotificationService notificationService)
+        try
         {
-            _filePathService = filePathService;
-            _notificationService = notificationService;
-        }
-
-        public async Task<List<string[]>> ReadCsvFile()
-        {
-            var filePath = _filePathService.GetFilePath(FileType.CSV);
-
+            var filePath = _filePathManager.GetFilePath(FileType.CSV, GetDefaultPath());
             if (string.IsNullOrEmpty(filePath))
-            {
-                _notificationService.ShowError("No file selected.");
-                return new List<string[]>();
-            }
+                return [];
 
-            try
-            {
-                var lines = await File.ReadAllLinesAsync(filePath);
-                var result = new List<string[]>();
+            _userNotifier.ShowInfo($"Opening CSV file: {Path.GetFileName(filePath)}");
 
-                foreach (var line in lines)
-                {
-                    // Simple CSV parsing - splits by comma
-                    // For more complex CSV parsing, consider using a CSV library like CsvHelper
-                    var values = line.Split(',');
-                    result.Add(values);
-                }
-
-                _notificationService.ShowInfo($"Successfully read {result.Count} rows from CSV file.");
-                return result;
-            }
-            catch (Exception ex)
-            {
-                _notificationService.ShowError($"Error reading CSV file: {ex.Message}");
-                return new List<string[]>();
-            }
+            return await _csvParser.ParseFileAsync(filePath);
+        }
+        catch (Exception ex)
+        {
+            _userNotifier.ShowError($"Failed to read CSV file: {ex.Message}");
+            throw;
         }
     }
+
+    private static string GetDefaultPath() =>
+        Path.Combine("Data", "ExcelCSV.CSV");
 }

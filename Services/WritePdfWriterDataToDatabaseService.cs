@@ -9,15 +9,15 @@ using ExcelReader.RyanW84.Abstractions.Data.DatabaseServices;
 
 namespace ExcelReader.RyanW84.Services;
 
-public class WritePdfFormDataToDatabaseService(IConfiguration configuration , IPdfFormTableCreator createTableFromPdfForm) : IPdfFormDatabaseService
+public class WritePdfWriterDataToDatabaseService(IConfiguration configuration , IPdfFormTableCreator createTableFromPdfWriter) : IPdfWriterDatabaseService
 {
     private readonly IConfiguration _configuration = configuration;
-    private readonly IPdfFormTableCreator _createTableFromPdfForm = createTableFromPdfForm;
+    private readonly IPdfFormTableCreator _createTableFromPdfWriter = createTableFromPdfWriter;
 
 	public async Task WriteAsync(Dictionary<string, string> fieldValues)
     {
-        // Use a specific table name for PDF form data with timestamp to ensure uniqueness
-        var tableName = $"PdfFormData_{DateTime.Now:yyyyMMdd_HHmmss}";
+        // Use a specific table name for PDF writer data with timestamp to ensure uniqueness
+        var tableName = $"PdfWriterData_{DateTime.Now:yyyyMMdd_HHmmss}";
         var dataTable = new DataTable(tableName);
         
         foreach (var key in fieldValues.Keys)
@@ -32,6 +32,6 @@ public class WritePdfFormDataToDatabaseService(IConfiguration configuration , IP
         dataTable.Rows.Add(row);
 
         // Offload the database operation to a background thread
-        await _createTableFromPdfForm.CreateTableFromPdfFormData(dataTable);
+        await _createTableFromPdfWriter.CreateTableFromPdfFormData(dataTable);
     }
 }

@@ -6,16 +6,11 @@ using iText.Kernel.Pdf;
 
 namespace ExcelReader.RyanW84.Services;
 
-public class WriteToPdfForm : IPdfFormWriter
+public class WriteToPdfForm(INotificationService userNotifier) : IPdfFormWriter
 {
-    private readonly INotificationService _userNotifier;
+    private readonly INotificationService _userNotifier = userNotifier;
 
-    public WriteToPdfForm(INotificationService userNotifier)
-    {
-        _userNotifier = userNotifier;
-    }
-
-    public async Task WriteFormFieldsAsync(string filePath, Dictionary<string, string> fieldValues)
+	public async Task WriteFormFieldsAsync(string filePath, Dictionary<string, string> fieldValues)
     {
         await Task.Run(() => WriteFormFields(filePath, fieldValues));
     }
@@ -42,19 +37,18 @@ public class WriteToPdfForm : IPdfFormWriter
         var fields = form.GetAllFormFields();
         foreach (var kvp in fieldValues)
         {
-            if (fields.ContainsKey(kvp.Key))
+            if (fields.TryGetValue(kvp.Key , out PdfFormField? field))
             {
-                var field = fields[kvp.Key];
-                // Special handling for the "wanted" checkbox
-                if (
-                    kvp.Key.Equals("wanted", StringComparison.OrdinalIgnoreCase)
-                    && field is PdfButtonFormField
-                )
+				// Special handling for the "wanted" checkbox
+				if (
+                    kvp.Key.Equals("Wanted", StringComparison.OrdinalIgnoreCase)
+                    && field is PdfButtonFormField field1
+				)
                 {
                     if (kvp.Value.Equals("Yes", StringComparison.OrdinalIgnoreCase))
-                        ((PdfButtonFormField)field).SetValue("Yes");
+                        field1.SetValue("Yes");
                     else
-                        ((PdfButtonFormField)field).SetValue("Off");
+                        field1.SetValue("No");
                 }
                 else
                 {
@@ -62,7 +56,7 @@ public class WriteToPdfForm : IPdfFormWriter
                 }
             }
         }
-        //form.FlattenFields();
+
         pdfDoc.Close();
         pdfReader.Close();
         pdfWriter.Close();

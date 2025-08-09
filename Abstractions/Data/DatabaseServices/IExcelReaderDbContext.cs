@@ -1,5 +1,7 @@
-using ExcelReader.RyanW84.Models;
+using ExcelReader.RyanW84.Data.Models;
+
 using Microsoft.EntityFrameworkCore;
+
 using System.Data;
 
 namespace ExcelReader.RyanW84.Abstractions.Data.DatabaseServices
