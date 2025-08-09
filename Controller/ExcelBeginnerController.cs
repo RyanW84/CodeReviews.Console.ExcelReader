@@ -1,8 +1,8 @@
 using System.Data;
 using ExcelReader.RyanW84.Abstractions.Data.DatabaseServices;
 using ExcelReader.RyanW84.Abstractions.Services;
-using ExcelReader.RyanW84.Models;
 using ExcelReader.RyanW84.Helpers;
+using ExcelReader.RyanW84.Data.Models;
 
 namespace ExcelReader.RyanW84.Controller;
 
@@ -30,10 +30,10 @@ public class ExcelBeginnerController(
             .Select(row => new ExcelBeginner
             {
                 Name = row.GetStringValue("Name"),
-                Age = row.GetIntValue("age"),
-                Sex = row.GetStringValue("sex"),
-                Colour = row.GetStringValue("colour"),
-                Height = row.GetStringValue("height"),
+                Age = row.GetIntValue("Age"),
+                Sex = row.GetStringValue("Sex"),
+                Colour = row.GetStringValue("Colour"),
+                Height = row.GetStringValue("Height"),
             })
             .Where(model => !string.IsNullOrWhiteSpace(model.Name))];
 }

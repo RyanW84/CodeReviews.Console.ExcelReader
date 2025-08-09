@@ -1,0 +1,87 @@
+﻿using System.Data;
+using ExcelReader.RyanW84.Helpers;
+using ExcelReader.RyanW84.Services;
+using ExcelReader.RyanW84.UserInterface;
+using Spectre.Console;
+
+namespace ExcelReader.RyanW84.Controller;
+
+public class ExcelWriteController(
+    WriteToExcelService writeToExcelService,
+    AnyExcelRead anyExcelRead,
+    ExcelUserInputUi excelUserInputUi,
+    WriteUpdatedExcelDataToDatabase writeUpdatedExcelDataToDatabase,
+    UserNotifier userNotifier
+)
+{
+    private readonly WriteToExcelService _writeToExcelService = writeToExcelService;
+    private readonly AnyExcelRead _anyExcelRead = anyExcelRead;
+    private readonly ExcelUserInputUi _excelUserInputUi = excelUserInputUi;
+    private readonly WriteUpdatedExcelDataToDatabase _writeUpdatedExcelDataToDatabase =
+        writeUpdatedExcelDataToDatabase;
+    private readonly UserNotifier _userNotifier = userNotifier;
+
+    // Orchestrator method for all steps
+    public async Task UpdateExcelAndDatabaseAsync()
+    {
+        try
+        {
+            // 1. Get file path from user via UI class
+            const string defaultPath = @"C:\Users\Ryanw\OneDrive\Documents\GitHub\Excel-Reader\Data\ExcelDynamic.xlsx";
+            var filePath = _excelUserInputUi.GetFilePath(defaultPath);
+
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                _userNotifier.ShowError("File path cannot be empty.");
+                return;
+            }
+
+            // 2. Get existing field values from Excel
+            var table = await _anyExcelRead.ReadFromExcelAsync();
+            if (table == null || table.Rows.Count == 0)
+            {
+                _userNotifier.ShowError("No data found in the Excel file.");
+                return;
+            }
+            var existingFields = new Dictionary<string, string>();
+            foreach (DataColumn col in table.Columns)
+            {
+                existingFields[col.ColumnName] =
+                    table.Rows[0][col.ColumnName]?.ToString() ?? string.Empty;
+            }
+
+            // 3. Update field values interactively
+            var updatedFields = _excelUserInputUi.UpdateFieldValues(existingFields);
+
+            // 4. Write updated fields to Excel
+            _writeToExcelService.WriteFieldsToExcel(filePath, updatedFields);
+
+            // 5. Write updated fields to database
+            await _writeUpdatedExcelDataToDatabase.WriteAsync(updatedFields);
+
+            _userNotifier.ShowSuccess("Excel file and database updated successfully!");
+        }
+        catch (FileNotFoundException ex)
+        {
+            _userNotifier.ShowError($"File not found: {ex.Message}");
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            _userNotifier.ShowError($"Access denied: {ex.Message}. Please check file permissions.");
+        }
+        catch (IOException ex)
+        {
+            _userNotifier.ShowError($"File I/O error: {ex.Message}. The file may be in use by another application.");
+        }
+        catch (Exception ex)
+        {
+            _userNotifier.ShowError($"An unexpected error occurred: {ex.Message}");
+        }
+    }
+
+    // Keep synchronous version for backward compatibility
+    public void UpdateExcelAndDatabase()
+    {
+        UpdateExcelAndDatabaseAsync().GetAwaiter().GetResult();
+    }
+}

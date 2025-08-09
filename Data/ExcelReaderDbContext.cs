@@ -1,9 +1,9 @@
-using ExcelReader.RyanW84.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using ExcelReader.RyanW84.Abstractions.Data.DatabaseServices;
+using ExcelReader.RyanW84.Data.Models;
 
 namespace ExcelReader.RyanW84.Data
 {
@@ -42,9 +42,9 @@ namespace ExcelReader.RyanW84.Data
                 .HasData(
                     new List<ExcelBeginner>
                     {
-                        new() { Id = 1, Name = "Name", Age = 1, Sex = "NA", Colour = "NA", Height = "F000" },
-                        new() { Id = 2, Name = "Name2", Age = 2, Sex = "NA", Colour = "NA", Height = "F200" },
-                        new() { Id = 3, Name = "Name3", Age = 3, Sex = "NA", Colour = "NA", Height = "F300" }
+                        new() { Id = 1, Name = "Bob Gates", Age = 67, Sex = "Male", Colour = "White", Height = "F507" },
+                        new() { Id = 2, Name = "Jodie Cousins", Age = 28, Sex = "Female", Colour = "Black", Height = "F500" },
+                        new() { Id = 3, Name = "Joseph Smith", Age = 30, Sex = "Male", Colour = "Asian", Height = "F600" }
                     }
                 );
         }

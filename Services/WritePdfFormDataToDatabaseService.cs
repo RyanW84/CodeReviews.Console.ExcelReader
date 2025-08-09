@@ -9,20 +9,17 @@ using ExcelReader.RyanW84.Abstractions.Data.DatabaseServices;
 
 namespace ExcelReader.RyanW84.Services;
 
-public class WritePdfFormDataToDatabaseService : IPdfFormDatabaseService
+public class WritePdfFormDataToDatabaseService(IConfiguration configuration , IPdfFormTableCreator createTableFromPdfForm) : IPdfFormDatabaseService
 {
-    private readonly IConfiguration _configuration;
-    private readonly IPdfFormTableCreator _createTableFromPdfForm;
+    private readonly IConfiguration _configuration = configuration;
+    private readonly IPdfFormTableCreator _createTableFromPdfForm = createTableFromPdfForm;
 
-    public WritePdfFormDataToDatabaseService(IConfiguration configuration, IPdfFormTableCreator createTableFromPdfForm)
+	public async Task WriteAsync(Dictionary<string, string> fieldValues)
     {
-        _configuration = configuration;
-        _createTableFromPdfForm = createTableFromPdfForm;
-    }
-
-    public async Task WriteAsync(Dictionary<string, string> fieldValues)
-    {
-        var dataTable = new DataTable("PdfFormData");
+        // Use a specific table name for PDF form data with timestamp to ensure uniqueness
+        var tableName = $"PdfFormData_{DateTime.Now:yyyyMMdd_HHmmss}";
+        var dataTable = new DataTable(tableName);
+        
         foreach (var key in fieldValues.Keys)
         {
             dataTable.Columns.Add(key);

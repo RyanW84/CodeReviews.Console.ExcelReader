@@ -1,0 +1,12 @@
+﻿using Microsoft.EntityFrameworkCore;
+using ExcelReader.RyanW84.Models;
+
+namespace ExcelReader.RyanW84.Data;
+
+public interface IExcelReaderDbContext
+{
+    DbSet<ExcelBeginner> ExcelBeginner { get; set; }
+    Task<int> SaveChangesAsync();
+    void EnsureDeleted();
+    void EnsureCreated();
+}

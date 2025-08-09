@@ -1,0 +1,290 @@
+﻿using System.Data;
+using System.Globalization;
+using CsvHelper;
+using CsvHelper.Configuration;
+using ExcelReader.RyanW84.Abstractions.Services;
+using ExcelReader.RyanW84.Models;
+
+namespace ExcelReader.RyanW84.Services;
+
+/// <summary>
+/// Unified CSV service following SOLID principles.
+/// Single Responsibility: Handles CSV file operations
+/// Open/Closed: Extensible through configuration and composition
+/// Dependency Inversion: Depends on abstractions (ICsvParser, INotificationService)
+/// </summary>
+public class CsvService(
+    INotificationService notificationService,
+    ICsvParser csvParser,
+    ICsvMetadataService metadataService) : ICsvService
+{
+    private readonly INotificationService _notificationService = 
+        notificationService ?? throw new ArgumentNullException(nameof(notificationService));
+    private readonly ICsvParser _csvParser = 
+        csvParser ?? throw new ArgumentNullException(nameof(csvParser));
+    private readonly ICsvMetadataService _metadataService =
+        metadataService ?? throw new ArgumentNullException(nameof(metadataService));
+    
+    private static readonly CsvConfiguration DefaultConfig = new(CultureInfo.InvariantCulture)
+    {
+        HasHeaderRecord = true,
+        MissingFieldFound = null, // Ignore missing fields
+        HeaderValidated = null,   // Don't validate headers
+        BadDataFound = null,      // Handle bad data gracefully
+        TrimOptions = TrimOptions.Trim,
+        DetectDelimiter = true    // Auto-detect delimiter
+    };
+
+    /// <summary>
+    /// Reads CSV file as raw string arrays.
+    /// Uses the injected parser for consistent parsing logic.
+    /// </summary>
+    public async Task<List<string[]>> ReadCsvAsArraysAsync(string filePath)
+    {
+        ValidateFilePath(filePath);
+        
+        return await ExecuteWithErrorHandling(
+            async () =>
+            {
+                _notificationService.ShowInfo($"Reading CSV file: {Path.GetFileName(filePath)}");
+                var records = await _csvParser.ParseFileAsync(filePath);
+                _notificationService.ShowSuccess($"Successfully read {Math.Max(0, records.Count - 1)} data rows from CSV");
+                return records;
+            },
+            $"reading CSV file {Path.GetFileName(filePath)}");
+    }
+
+    /// <summary>
+    /// Reads CSV file and converts directly to DataTable.
+    /// Optimized for database operations.
+    /// </summary>
+    public async Task<DataTable> ReadCsvAsDataTableAsync(string filePath, string? tableName = null)
+    {
+        ValidateFilePath(filePath);
+        
+        return await ExecuteWithErrorHandling(
+            async () =>
+            {
+                var dataTable = new DataTable(tableName ?? "CsvImport");
+                
+                _notificationService.ShowInfo($"Converting CSV to DataTable: {Path.GetFileName(filePath)}");
+                
+                using var reader = new StringReader(await File.ReadAllTextAsync(filePath));
+                using var csv = new CsvReader(reader, DefaultConfig);
+                
+                // Read and create columns from header
+                if (await csv.ReadAsync())
+                {
+                    csv.ReadHeader();
+                    if (csv.HeaderRecord != null)
+                    {
+                        foreach (var header in csv.HeaderRecord)
+                        {
+                            dataTable.Columns.Add(header?.Trim() ?? "Unknown");
+                        }
+                    }
+                }
+
+                // Read data rows
+                while (await csv.ReadAsync())
+                {
+                    var row = dataTable.NewRow();
+                    for (int i = 0; i < dataTable.Columns.Count; i++)
+                    {
+                        var fieldValue = csv.GetField(i);
+                        row[i] = string.IsNullOrWhiteSpace(fieldValue) ? DBNull.Value : fieldValue.Trim();
+                    }
+                    dataTable.Rows.Add(row);
+                }
+
+                _notificationService.ShowSuccess($"Converted CSV to DataTable: {dataTable.Rows.Count} rows, {dataTable.Columns.Count} columns");
+                return dataTable;
+            },
+            $"converting CSV file {Path.GetFileName(filePath)} to DataTable");
+    }
+
+    /// <summary>
+    /// Reads CSV file as strongly-typed objects.
+    /// Uses CsvHelper's built-in mapping capabilities.
+    /// </summary>
+    public async Task<List<T>> ReadCsvAsObjectsAsync<T>(string filePath)
+    {
+        ValidateFilePath(filePath);
+        
+        return await ExecuteWithErrorHandling(
+            async () =>
+            {
+                _notificationService.ShowInfo($"Reading CSV as typed objects: {Path.GetFileName(filePath)}");
+                
+                using var reader = new StringReader(await File.ReadAllTextAsync(filePath));
+                using var csv = new CsvReader(reader, DefaultConfig);
+                
+                var records = new List<T>();
+                await foreach (var record in csv.GetRecordsAsync<T>())
+                {
+                    records.Add(record);
+                }
+
+                _notificationService.ShowSuccess($"Read {records.Count} strongly-typed records from CSV");
+                return records;
+            },
+            $"reading CSV file {Path.GetFileName(filePath)} as typed objects");
+    }
+
+    /// <summary>
+    /// Updates existing CSV file with DataTable content.
+    /// Maintains original file structure while updating data.
+    /// </summary>
+    public async Task UpdateCsvFromDataTableAsync(DataTable dataTable, string filePath)
+    {
+        ValidateDataTable(dataTable);
+        ValidateFilePath(filePath);
+        
+        await ExecuteWithErrorHandling(
+            async () =>
+            {
+                _notificationService.ShowInfo($"Updating CSV file: {Path.GetFileName(filePath)}");
+                
+                using var writer = new StringWriter();
+                using var csv = new CsvWriter(writer, DefaultConfig);
+                
+                // Write headers
+                foreach (DataColumn column in dataTable.Columns)
+                {
+                    csv.WriteField(column.ColumnName);
+                }
+                await csv.NextRecordAsync();
+                
+                // Write data
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    foreach (var field in row.ItemArray)
+                    {
+                        csv.WriteField(field?.ToString() ?? string.Empty);
+                    }
+                    await csv.NextRecordAsync();
+                }
+                
+                await File.WriteAllTextAsync(filePath, writer.ToString());
+                _notificationService.ShowSuccess($"CSV file updated: {Path.GetFileName(filePath)} with {dataTable.Rows.Count} rows");
+            },
+            $"updating CSV file {Path.GetFileName(filePath)}");
+    }
+
+    /// <summary>
+    /// Advanced workflow: reads, processes, and writes back to the same file.
+    /// Demonstrates composition and separation of concerns.
+    /// </summary>
+    public async Task<string> ReadAndWriteCsvAsync(string filePath, Func<DataTable, Task<DataTable>> dataProcessor)
+    {
+        ValidateFilePath(filePath);
+        ArgumentNullException.ThrowIfNull(dataProcessor);
+        
+        return await ExecuteWithErrorHandling(
+            async () =>
+            {
+                _notificationService.ShowInfo($"Processing CSV file: {Path.GetFileName(filePath)}");
+                
+                // Read the existing CSV file
+                var originalDataTable = await ReadCsvAsDataTableAsync(filePath);
+                
+                // Process the data using the provided processor
+                var processedDataTable = await dataProcessor(originalDataTable);
+                
+                // Write back to the same file
+                await UpdateCsvFromDataTableAsync(processedDataTable, filePath);
+                
+                _notificationService.ShowSuccess($"CSV processing complete: {Path.GetFileName(filePath)}");
+                return filePath;
+            },
+            $"processing CSV file {Path.GetFileName(filePath)}");
+    }
+
+    /// <summary>
+    /// Enhanced method that provides metadata about the CSV before processing.
+    /// Demonstrates how services can collaborate while maintaining single responsibility.
+    /// </summary>
+    public async Task<CsvOperationResult> ReadCsvWithMetadataAsync(string filePath)
+    {
+        ValidateFilePath(filePath);
+        
+        return await ExecuteWithErrorHandling(
+            async () =>
+            {
+                _notificationService.ShowInfo($"Analyzing CSV structure: {Path.GetFileName(filePath)}");
+                
+                // Get metadata first
+                var metadata = await _metadataService.GetMetadataAsync(filePath);
+                
+                // Read data
+                var dataTable = await ReadCsvAsDataTableAsync(filePath, metadata.FileName);
+                
+                return new CsvOperationResult
+                {
+                    Data = dataTable,
+                    Metadata = metadata,
+                    Success = true,
+                    Message = $"Successfully loaded CSV with {dataTable.Rows.Count} rows and {dataTable.Columns.Count} columns"
+                };
+            },
+            $"reading CSV with metadata {Path.GetFileName(filePath)}");
+    }
+
+    #region Private Helper Methods
+
+    /// <summary>
+    /// Template method for consistent error handling across all operations.
+    /// Follows DRY principle and provides consistent error reporting.
+    /// </summary>
+    private async Task<T> ExecuteWithErrorHandling<T>(Func<Task<T>> operation, string operationDescription)
+    {
+        try
+        {
+            return await operation();
+        }
+        catch (Exception ex)
+        {
+            var errorMessage = $"Error {operationDescription}: {ex.Message}";
+            _notificationService.ShowError(errorMessage);
+            throw new InvalidOperationException(errorMessage, ex);
+        }
+    }
+
+    /// <summary>
+    /// Validates file path following fail-fast principle.
+    /// </summary>
+    private static void ValidateFilePath(string filePath)
+    {
+        if (string.IsNullOrWhiteSpace(filePath))
+            throw new ArgumentException("File path cannot be null or empty.", nameof(filePath));
+        
+        if (!File.Exists(filePath))
+            throw new FileNotFoundException($"CSV file not found: {filePath}");
+    }
+
+    /// <summary>
+    /// Validates DataTable for write operations.
+    /// </summary>
+    private static void ValidateDataTable(DataTable dataTable)
+    {
+        ArgumentNullException.ThrowIfNull(dataTable);
+        
+        if (dataTable.Columns.Count == 0)
+            throw new ArgumentException("DataTable must have at least one column.", nameof(dataTable));
+    }
+
+    #endregion
+}
+
+/// <summary>
+/// Result object for CSV operations that need to return both data and metadata.
+/// Follows the Command Query Responsibility Segregation (CQRS) principle.
+/// </summary>
+public class CsvOperationResult
+{
+    public DataTable? Data { get; set; }
+    public CsvMetadata? Metadata { get; set; }
+    public bool Success { get; set; }
+    public string Message { get; set; } = string.Empty;
+    public List<string> Warnings { get; set; } = new List<string>();
+}

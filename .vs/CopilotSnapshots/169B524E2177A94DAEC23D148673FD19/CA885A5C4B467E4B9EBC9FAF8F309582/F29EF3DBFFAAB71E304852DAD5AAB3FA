@@ -1,0 +1,116 @@
+﻿using System.Data;
+using ExcelReader.RyanW84.Abstractions;
+using ExcelReader.RyanW84.Helpers;
+using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas.Parser;
+using iText.Kernel.Pdf.Canvas.Parser.Listener;
+
+namespace ExcelReader.RyanW84.Services;
+
+public class ReadFromPdf : IPdfTableReader
+{
+    private readonly IFilePathService _filePathManager;
+    private readonly INotificationService _userNotifier;
+
+    public ReadFromPdf(IFilePathService filePathManager, INotificationService userNotifier)
+    {
+        _filePathManager = filePathManager;
+        _userNotifier = userNotifier;
+    }
+
+    public async Task<List<string[]>> ReadPdfFileAsync()
+    {
+        string filePath;
+        try
+        {
+            var customDefault = "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Data\\TablePDF.pdf";
+            filePath = _filePathManager.GetFilePath(FileType.PDF, customDefault);
+        }
+        catch (FilePathValidationException ex)
+        {
+            _userNotifier.ShowError($"PDF file path error: {ex.Message}");
+            return [];
+        }
+
+        return await Task.Run(() =>
+        {
+            _userNotifier.ShowInfo($"Opening {filePath}");
+            var result = new List<string[]>();
+
+            try
+            {
+                using var pdfReader = new PdfReader(filePath);
+                using var pdfDoc = new PdfDocument(pdfReader);
+                
+                for (int i = 1; i <= pdfDoc.GetNumberOfPages(); i++)
+                {
+                    var page = pdfDoc.GetPage(i);
+                    var strategy = new SimpleTextExtractionStrategy();
+                    var text = PdfTextExtractor.GetTextFromPage(page, strategy);
+                    
+                    // Simple parsing - this would be replaced with more robust table parsing
+                    var lines = text.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var line in lines)
+                    {
+                        // Simple splitting by whitespace - adjust as needed
+                        var cells = line.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                        if (cells.Length > 0)
+                        {
+                            result.Add(cells);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _userNotifier.ShowError($"Error reading PDF: {ex.Message}");
+            }
+            
+            return result;
+        });
+    }
+
+    public List<string[]> ReadPdfFile()
+    {
+        return ReadPdfFileAsync().GetAwaiter().GetResult();
+    }
+    
+    public static async Task<DataTable> ConvertToDataTableAsync(List<string[]> pdfData)
+    {
+        return await Task.Run(() =>
+        {
+            var dataTable = new DataTable();
+            
+            if (pdfData == null || pdfData.Count == 0)
+                return dataTable;
+                
+            // Determine max columns
+            int maxCols = pdfData.Max(row => row.Length);
+            
+            // Add columns
+            for (int i = 0; i < maxCols; i++)
+            {
+                dataTable.Columns.Add($"Column{i + 1}");
+            }
+            
+            // Add rows
+            foreach (var row in pdfData)
+            {
+                var dataRow = dataTable.NewRow();
+                for (int i = 0; i < row.Length; i++)
+                {
+                    dataRow[i] = row[i];
+                }
+                dataTable.Rows.Add(dataRow);
+            }
+            
+            return dataTable;
+        });
+    }
+    
+    // Keep synchronous version for backward compatibility
+    public static DataTable ConvertToDataTable(List<string[]> pdfData)
+    {
+        return ConvertToDataTableAsync(pdfData).GetAwaiter().GetResult();
+    }
+}

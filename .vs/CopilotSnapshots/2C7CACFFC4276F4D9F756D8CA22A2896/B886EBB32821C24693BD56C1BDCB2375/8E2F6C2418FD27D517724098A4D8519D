@@ -1,0 +1,82 @@
+﻿using System.Data;
+using ExcelReader.RyanW84.Helpers;
+using OfficeOpenXml;
+
+namespace ExcelReader.RyanW84.Services;
+
+public class ExcelBeginnerService
+{
+    private readonly FilePathManager _filePathManager;
+    private readonly UserNotifier _userNotifier;
+
+    public ExcelBeginnerService(FilePathManager filePathManager, UserNotifier userNotifier)
+    {
+        _filePathManager = filePathManager;
+        _userNotifier = userNotifier;
+    }
+
+    public DataTable ReadFromExcel()
+    {
+        string filePath;
+        try
+        {
+            // Use a custom default path for ExcelBeginner specific file
+            var customDefault = @"C:\Users\Ryanw\OneDrive\Documents\GitHub\Excel-Reader\Data\ExcelBeginner.xlsx";
+            filePath = _filePathManager.GetFilePath(FilePathManager.FileType.Excel, customDefault);
+        }
+        catch (FilePathValidationException ex)
+        {
+            _userNotifier.ShowError($"Excel file path error: {ex.Message}");
+            return new DataTable();
+        }
+
+        using var package = CreateExcelPackage(filePath);
+        return ReadDataFromWorksheet(package);
+    }
+
+    private static ExcelPackage CreateExcelPackage(string filePath)
+    {
+        var file = new FileInfo(filePath);
+
+        // Check if the file exists
+        if (!file.Exists)
+            throw new FileNotFoundException($"Excel file not found at path: {filePath}");
+
+        OfficeOpenXml.ExcelPackage.License.SetNonCommercialPersonal("Ryan Weavers");
+        var package = new ExcelPackage(file);
+        var worksheet = package.Workbook.Worksheets["test"];
+
+        if (worksheet == null)
+            throw new Exception("Worksheet 'test' not found in the Excel file");
+
+        return package;
+    }
+
+    private static DataTable ReadDataFromWorksheet(ExcelPackage excelPackage, bool hasHeader = true)
+    {
+        var worksheet = excelPackage.Workbook.Worksheets["test"];
+        var excelAsTable = new DataTable();
+
+        // Add columns
+        foreach (var firstRowCell in worksheet.Cells[1, 1, 1, worksheet.Dimension.End.Column])
+        {
+            if (!string.IsNullOrEmpty(firstRowCell.Text))
+            {
+                var columnName = hasHeader ? firstRowCell.Text : $"Column {firstRowCell.Start.Column}";
+                excelAsTable.Columns.Add(columnName);
+            }
+        }
+
+        // Add data rows
+        var startRow = hasHeader ? 2 : 1;
+        for (var rowNum = startRow; rowNum <= worksheet.Dimension.End.Row; rowNum++)
+        {
+            var wsRow = worksheet.Cells[rowNum, 1, rowNum, excelAsTable.Columns.Count];
+            var row = excelAsTable.Rows.Add();
+            foreach (var cell in wsRow)
+                row[cell.Start.Column - 1] = cell.Text;
+        }
+
+        return excelAsTable;
+    }
+}

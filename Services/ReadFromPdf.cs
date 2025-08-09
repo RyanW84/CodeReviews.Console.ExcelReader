@@ -27,16 +27,16 @@ public class ReadFromPdf : IPdfTableReader
 		string filePath;
 		try
 		{
-			var customDefault = @"C:\Users\Ryanw\OneDrive\Documents\GitHub\CodeReviews.Console.ExcelReader\Data\TablePDF.pdf";
+			var customDefault = @"C:\Users\Ryanw\OneDrive\Documents\GitHub\Excel-Reader\Data\TablePDF.pdf";
 			filePath = _filePathManager.GetFilePath(FileType.PDF , customDefault);
 		}
 		catch (FilePathValidationException ex)
 		{
 			_userNotifier.ShowError($"PDF file path error: {ex.Message}");
-			return [];
+			return new List<string[]>(); // Change from [] to new List<string[]>()
 		}
 
-		return await Task.Run(( ) =>
+		return await Task.Run(() =>
 		{
 			_userNotifier.ShowInfo($"Opening {filePath}");
 			var result = new List<string[]>();

@@ -1,0 +1,91 @@
+﻿using System.Data;
+using System.Data.SqlClient;
+using ExcelReader.RyanW84.Data;
+using ExcelReader.RyanW84.Helpers;
+using ExcelReader.RyanW84.Services;
+using ExcelReader.RyanW84.UserInterface;
+using Microsoft.Extensions.Configuration;
+
+namespace ExcelReader.RyanW84.Controller;
+
+public class PdfFormWriteController(
+    IConfiguration configuration,
+    ExcelReaderDbContext dbContext,
+    ReadFromPdfForm readFromPdfForm,
+    WriteToPdfForm writeToPdfForm,
+    WritePdfFormDataToDatabaseService writePdfFormDataToDatabaseService,
+    PdfFormWriteUi pdfFormWriteUi,
+    TableExistenceService tableExistenceService,
+    UserNotifier userNotifier
+)
+{
+    private readonly IConfiguration _configuration = configuration;
+    private readonly ExcelReaderDbContext _dbContext = dbContext;
+    private readonly WriteToPdfForm _writeToPdfForm = writeToPdfForm;
+    private readonly ReadFromPdfForm _readFromPdfForm = readFromPdfForm;
+    private readonly WritePdfFormDataToDatabaseService _writePdfFormDataToDatabaseService =
+        writePdfFormDataToDatabaseService;
+    private readonly PdfFormWriteUi _pdfFormWriteUi = pdfFormWriteUi;
+    private readonly TableExistenceService _tableExistenceService = tableExistenceService;
+    private readonly UserNotifier _userNotifier = userNotifier;
+
+    // Orchestrator method for all PDF form write steps
+    public void UpdatePdfFormAndDatabase(string filePath)
+    {
+        // 1. Get existing field values from PDF
+        var existingFields = GetExistingFieldValues(filePath);
+        if (existingFields.Count == 0)
+        {
+            Console.WriteLine("No form fields found or file not found.");
+            return;
+        }
+
+        // 2. Get updated field values from user interaction
+        var updatedFields = GetUpdatedFieldValues(existingFields);
+
+        // 3. Write updated fields to PDF form
+        WriteDataToPdfForm(filePath, updatedFields);
+
+        // 4. Write updated fields to database
+        WriteDataToDatabase(updatedFields);
+
+        Console.WriteLine("PDF form and database updated successfully!");
+    }
+
+    public Dictionary<string, string> GetExistingFieldValues(string filePath)
+    {
+        var existingFields = _readFromPdfForm.ReadFormFields(filePath);
+        var result = new Dictionary<string, string>();
+        foreach (var field in existingFields)
+        {
+            result[field.Key] = field.Value ?? string.Empty;
+        }
+        return result;
+    }
+
+    public Dictionary<string, string> GetUpdatedFieldValues(Dictionary<string, string> fieldValues)
+    {
+        return _pdfFormWriteUi.GatherUpdatedFields(fieldValues);
+    }
+
+    public void WriteDataToPdfForm(string filePath, Dictionary<string, string> fieldValues)
+    {
+        _writeToPdfForm.WriteFormFields(filePath, fieldValues);
+        _dbContext.SaveChanges();
+    }
+
+    public void EnsureTableExists(DataTable dataTable, SqlConnection connection)
+    {
+        _tableExistenceService.EnsureTableExists(dataTable, connection);
+    }
+
+    public void EnsureTableExists(DataTable dataTable)
+    {
+        _tableExistenceService.EnsureTableExists(dataTable);
+    }
+
+    public void WriteDataToDatabase(Dictionary<string, string> fieldValues)
+    {
+        _writePdfFormDataToDatabaseService.Write(fieldValues);
+    }
+}

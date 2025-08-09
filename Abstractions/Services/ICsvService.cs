@@ -1,0 +1,121 @@
+using System.Data;
+using ExcelReader.RyanW84.Models;
+
+namespace ExcelReader.RyanW84.Abstractions.Services;
+
+/// <summary>
+/// Unified CSV service interface following Interface Segregation Principle.
+/// Provides comprehensive CSV operations while maintaining focused responsibilities.
+/// </summary>
+public interface ICsvService
+{
+    /// <summary>
+    /// Reads CSV file as array of string arrays (raw data).
+    /// Useful for scenarios requiring maximum flexibility in data processing.
+    /// </summary>
+    /// <param name="filePath">Path to the CSV file</param>
+    /// <returns>List of string arrays representing CSV rows</returns>
+    Task<List<string[]>> ReadCsvAsArraysAsync(string filePath);
+    
+    /// <summary>
+    /// Reads CSV file directly as DataTable.
+    /// Optimized for database operations and data manipulation.
+    /// </summary>
+    /// <param name="filePath">Path to the CSV file</param>
+    /// <param name="tableName">Optional table name for the DataTable</param>
+    /// <returns>DataTable containing CSV data</returns>
+    Task<DataTable> ReadCsvAsDataTableAsync(string filePath, string? tableName = null);
+    
+    /// <summary>
+    /// Reads CSV file as strongly-typed objects.
+    /// Provides type safety and leverages CsvHelper's mapping capabilities.
+    /// </summary>
+    /// <typeparam name="T">The type to map CSV records to</typeparam>
+    /// <param name="filePath">Path to the CSV file</param>
+    /// <returns>List of strongly-typed objects</returns>
+    Task<List<T>> ReadCsvAsObjectsAsync<T>(string filePath);
+    
+    /// <summary>
+    /// Updates existing CSV file with DataTable content.
+    /// Maintains file structure while updating data.
+    /// </summary>
+    /// <param name="dataTable">DataTable containing data to write</param>
+    /// <param name="filePath">Path to the CSV file to update</param>
+    Task UpdateCsvFromDataTableAsync(DataTable dataTable, string filePath);
+    
+    /// <summary>
+    /// Reads CSV, processes it using provided processor, and writes back to the same file.
+    /// Enables complex data transformation workflows.
+    /// </summary>
+    /// <param name="filePath">Path to the CSV file</param>
+    /// <param name="dataProcessor">Function to process the data</param>
+    /// <returns>Path to the processed file</returns>
+    Task<string> ReadAndWriteCsvAsync(string filePath, Func<DataTable, Task<DataTable>> dataProcessor);
+
+    /// <summary>
+    /// Enhanced method that provides both data and metadata about the CSV file.
+    /// Useful for applications that need comprehensive file information.
+    /// </summary>
+    /// <param name="filePath">Path to the CSV file</param>
+    /// <returns>Result containing data, metadata, and operation status</returns>
+    Task<CsvOperationResult> ReadCsvWithMetadataAsync(string filePath);
+}
+
+/// <summary>
+/// Result object for CSV operations that need to return comprehensive information.
+/// Follows the Command Query Responsibility Segregation (CQRS) principle.
+/// </summary>
+public class CsvOperationResult
+{
+    /// <summary>
+    /// The CSV data as a DataTable
+    /// </summary>
+    public DataTable? Data { get; set; }
+    
+    /// <summary>
+    /// Metadata information about the CSV file
+    /// </summary>
+    public CsvMetadata? Metadata { get; set; }
+    
+    /// <summary>
+    /// Indicates whether the operation was successful
+    /// </summary>
+    public bool Success { get; set; }
+    
+    /// <summary>
+    /// Success or error message describing the operation result
+    /// </summary>
+    public string Message { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// Any warnings generated during the operation
+    /// </summary>
+    public List<string> Warnings { get; set; } = [];
+
+    /// <summary>
+    /// Creates a successful result
+    /// </summary>
+    public static CsvOperationResult CreateSuccess(DataTable data, CsvMetadata metadata, string message)
+    {
+        return new CsvOperationResult
+        {
+            Data = data,
+            Metadata = metadata,
+            Success = true,
+            Message = message
+        };
+    }
+
+    /// <summary>
+    /// Creates a failed result
+    /// </summary>
+    public static CsvOperationResult CreateFailure(string message, List<string>? warnings = null)
+    {
+        return new CsvOperationResult
+        {
+            Success = false,
+            Message = message,
+            Warnings = warnings ?? []
+        };
+    }
+}

@@ -1,0 +1,50 @@
+﻿using System.Data;
+using ExcelReader.RyanW84.Data;
+using ExcelReader.RyanW84.Models;
+using ExcelReader.RyanW84.Services;
+using Microsoft.Extensions.Configuration;
+
+namespace ExcelReader.RyanW84.Controller;
+
+public class ExcelBeginnerController(IConfiguration configuration, ExcelReaderDbContext dbContext)
+{
+    private readonly IConfiguration _configuration = configuration;
+    private readonly ExcelReaderDbContext _dbContext = dbContext;
+
+    public void AddDataFromExcel()
+    {
+        Console.WriteLine("Starting ExcelBeginner import...");
+        var excelPackage = ExcelBeginnerService.ExcelPackage();
+        var dataTable = ExcelBeginnerService.ReadFromExcel(excelPackage);
+        Console.WriteLine($"Read {dataTable.Rows.Count} Rows from ExcelBeginner sheet.");
+        Console.WriteLine($"Read {dataTable.Columns.Count} Columns from ExcelBeginner sheet.");
+
+        var excelBeginners = ConvertDataTableToExcelBeginners(dataTable);
+        _dbContext.ExcelBeginner.AddRange(excelBeginners);
+
+        _dbContext.SaveChanges();
+        Console.WriteLine("ExcelBeginner import complete.");
+        excelPackage.Dispose();
+    }
+
+    private List<ExcelBeginner> ConvertDataTableToExcelBeginners(DataTable dataTable)
+    {
+        var excelBeginners = new List<ExcelBeginner>();
+
+        foreach (DataRow row in dataTable.Rows)
+        {
+            var excelBeginner = new ExcelBeginner
+            {
+                Name = row["Name"].ToString() ?? string.Empty,
+                Age = int.TryParse(row["age"].ToString(), out var age) ? age : 0,
+                Sex = row["sex"].ToString() ?? string.Empty,
+                Colour = row["colour"].ToString() ?? string.Empty,
+                Height = row["height"].ToString() ?? string.Empty,
+            };
+
+            excelBeginners.Add(excelBeginner);
+        }
+
+        return excelBeginners;
+    }
+}

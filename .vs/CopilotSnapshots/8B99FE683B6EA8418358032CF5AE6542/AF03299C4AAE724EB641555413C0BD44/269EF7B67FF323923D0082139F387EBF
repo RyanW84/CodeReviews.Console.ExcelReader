@@ -1,0 +1,36 @@
+﻿using System.Data;
+using ExcelReader.RyanW84.Data;
+using ExcelReader.RyanW84.Services;
+using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+
+namespace ExcelReader.RyanW84.Controller;
+
+public class ExcelWriteController(IConfiguration configuration, ExcelReaderDbContext dbContext, WriteToExcelService writeToExcelService, AnyExcelRead anyExcelRead)
+{
+    private readonly WriteToExcelService _writeToExcelService = writeToExcelService;
+    private readonly AnyExcelRead _anyExcelRead = anyExcelRead;
+    private readonly IConfiguration _configuration = configuration;
+    private readonly ExcelReaderDbContext _dbContext = dbContext;
+
+    public Dictionary<string, string>? GetExistingFieldValues(string filePath)
+    {
+        var table = _anyExcelRead.ReadFromExcel();
+        if (table == null || table.Rows.Count == 0)
+            return null;
+        var existingFields = new Dictionary<string, string>();
+        foreach (DataColumn col in table.Columns)
+        {
+            existingFields[col.ColumnName] = table.Rows[0][col.ColumnName]?.ToString() ?? string.Empty;
+        }
+        return existingFields;
+    }
+	public void WriteDataToExcel(string filePath , Dictionary<string , string> fieldValues)
+		{
+		_writeToExcelService.WriteFieldsToExcel(filePath , fieldValues);
+		}
+	public void WriteDataToDatabase(Dictionary<string, string> fieldValues)
+    {
+        // Implement as needed
+    }
+}

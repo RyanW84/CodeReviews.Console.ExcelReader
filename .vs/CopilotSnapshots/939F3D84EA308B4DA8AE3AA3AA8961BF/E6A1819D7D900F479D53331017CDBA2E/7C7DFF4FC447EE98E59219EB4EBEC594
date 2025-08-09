@@ -1,0 +1,81 @@
+﻿using System.Data;
+using ExcelReader.RyanW84.Data;
+using ExcelReader.RyanW84.Helpers;
+using ExcelReader.RyanW84.Models;
+using ExcelReader.RyanW84.Services;
+using Microsoft.Extensions.Configuration;
+
+namespace ExcelReader.RyanW84.Controller;
+
+public class ExcelBeginnerController(
+    ExcelBeginnerService excelBeginnerService,
+    ExcelReaderDbContext dbContext,
+    UserNotifier userNotifier
+)
+{
+    private readonly ExcelBeginnerService _excelBeginnerService = excelBeginnerService;
+    private readonly ExcelReaderDbContext _dbContext = dbContext;
+    private readonly UserNotifier _userNotifier = userNotifier;
+
+    // Orchestrator method for all steps
+    public async Task AddDataFromExcel()
+    {
+        // 1. Read data from Excel file
+        var dataTable = _excelBeginnerService.ReadFromExcel();
+        if (dataTable == null || dataTable.Rows.Count == 0)
+        {
+            _userNotifier.ShowError("No data found in the Excel file.");
+            return;
+        }
+
+        // 2. Convert DataTable to domain models
+        var excelBeginners = ConvertDataTableToModels(dataTable);
+        if (excelBeginners.Count == 0)
+        {
+            _userNotifier.ShowError("No valid data rows found to import.");
+            return;
+        }
+
+        // 3. Save to database
+        _dbContext.ExcelBeginner.AddRange(excelBeginners);
+        await _dbContext.SaveChangesAsync();
+
+        _userNotifier.ShowSuccess($"ExcelBeginner import complete. Imported {excelBeginners.Count} records.");
+    }
+
+    private List<ExcelBeginner> ConvertDataTableToModels(DataTable dataTable)
+    {
+        var excelBeginners = new List<ExcelBeginner>();
+
+        foreach (DataRow row in dataTable.Rows)
+        {
+            var excelBeginner = new ExcelBeginner
+            {
+                Name = GetStringValue(row, "Name"),
+                Age = GetIntValue(row, "age"),
+                Sex = GetStringValue(row, "sex"),
+                Colour = GetStringValue(row, "colour"),
+                Height = GetStringValue(row, "height")
+            };
+
+            // Skip rows with empty required fields
+            if (string.IsNullOrWhiteSpace(excelBeginner.Name))
+                continue;
+
+            excelBeginners.Add(excelBeginner);
+        }
+
+        return excelBeginners;
+    }
+
+    private static string GetStringValue(DataRow row, string columnName)
+    {
+        return row[columnName]?.ToString()?.Trim() ?? string.Empty;
+    }
+
+    private static int GetIntValue(DataRow row, string columnName)
+    {
+        var value = row[columnName]?.ToString()?.Trim();
+        return int.TryParse(value, out var result) ? result : 0;
+    }
+}
