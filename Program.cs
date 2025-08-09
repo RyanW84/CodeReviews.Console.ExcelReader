@@ -88,6 +88,7 @@ namespace ExcelReader.RyanW84
 
 						// CSV SERVICE - Register the unified ICsvService
 						services.AddScoped<ICsvService, CsvService>();
+						services.AddScoped<ICsvFileReader, CsvFileReader>();
 
 						// File Reading Services with interfaces
 						services.AddScoped<IAnyExcelReader , AnyExcelRead>();
