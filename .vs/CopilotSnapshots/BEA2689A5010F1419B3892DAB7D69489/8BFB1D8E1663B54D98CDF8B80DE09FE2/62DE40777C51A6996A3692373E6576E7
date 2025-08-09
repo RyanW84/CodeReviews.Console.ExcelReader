@@ -1,0 +1,11 @@
+﻿using System.Data;
+
+namespace ExcelReader.RyanW84.Abstractions;
+
+/// <summary>
+/// Interface for CSV reading operations
+/// </summary>
+public interface ICsvReader
+{
+    Task<List<string[]>> ReadCsvFile();
+}

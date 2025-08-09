@@ -1,0 +1,68 @@
+﻿using System.Data;
+using System.IO;
+using Microsoft.Extensions.Configuration;
+using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas.Parser;
+using iText.Kernel.Pdf.Canvas.Parser.Listener;
+
+namespace ExcelReader.RyanW84.Services;
+
+public class ReadFromPdf(IConfiguration configuration)
+{
+    private readonly IConfiguration _configuration = configuration;
+
+    public List<string[]> ReadPdfFile()
+    {
+        string filePath =
+            _configuration["PdfFilePath"]
+            ?? @"C:\Users\Ryanw\OneDrive\Documents\GitHub\Excel-Reader\Data\Sample.pdf";
+        Console.WriteLine($"opening {filePath}");
+
+        var pdfData = new List<string[]>();
+
+        if (!File.Exists(filePath))
+        {
+            Console.WriteLine("PDF file not found.");
+            return pdfData;
+        }
+
+        using var pdfReader = new PdfReader(filePath);
+        using var pdfDoc = new PdfDocument(pdfReader);
+
+        for (int page = 1; page <= pdfDoc.GetNumberOfPages(); page++)
+        {
+            var strategy = new SimpleTextExtractionStrategy();
+            var text = PdfTextExtractor.GetTextFromPage(pdfDoc.GetPage(page), strategy);
+            var lines = text.Split('\n');
+            foreach (var line in lines)
+            {
+                var rowData = line.Split(','); // Adjust for your delimiter if needed
+                pdfData.Add(rowData);
+            }
+        }
+
+        return pdfData;
+    }
+
+    public DataTable ConvertToDataTable(List<string[]> pdfData)
+    {
+        var dataTable = new DataTable();
+
+        if (pdfData == null || pdfData.Count == 0)
+            return dataTable;
+
+        // Add columns using the first row as header
+        foreach (var columnName in pdfData[0])
+        {
+            dataTable.Columns.Add(columnName ?? string.Empty);
+        }
+
+        // Add rows (skip header row)
+        for (int i = 1; i < pdfData.Count; i++)
+        {
+            dataTable.Rows.Add(pdfData[i]);
+        }
+
+        return dataTable;
+    }
+}

@@ -1,0 +1,17 @@
+﻿using ExcelReader.RyanW84.Data;
+using ExcelReader.RyanW84.Services;
+using Microsoft.Extensions.Configuration;
+
+namespace ExcelReader.RyanW84.Controller;
+
+public class CsvController(IConfiguration configuration, ExcelReaderDbContext dbContext, ReadFromCsv readFromCsv, CreateTableFromCSV createTableFromCSV)
+{
+    public void AddDataFromCsv()
+    {
+        var csvData = readFromCsv.ReadCsvFile();
+        var dataTable = readFromCsv.ConvertToDataTable(csvData);
+        dataTable.TableName = "CsvImport";
+        createTableFromCSV.CreateTableFromCsvData(dataTable);
+        dbContext.SaveChanges();
+    }
+}

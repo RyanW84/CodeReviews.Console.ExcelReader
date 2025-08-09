@@ -1,0 +1,13 @@
+﻿using System.Data;
+
+namespace ExcelReader.RyanW84.Abstractions;
+
+/// <summary>
+/// Interface for CSV reading operations
+/// </summary>
+public interface ICsvReader
+{
+    Task<List<string[]>> ReadCsvFile();
+    static Task<DataTable> ConvertToDataTableAsync(List<string[]> csvData) => throw new NotImplementedException();
+    static DataTable ConvertToDataTable(List<string[]> csvData) => throw new NotImplementedException();
+}
