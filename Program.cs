@@ -86,9 +86,10 @@ namespace ExcelReader.RyanW84
 						services.AddScoped<IRecordSelectionService , RecordSelectionService>();
 						services.AddScoped<IExcelUpdateService , ExcelUpdateService>();
 
-						// CSV SERVICE - Register the unified ICsvService
+						// CSV SERVICE - Updated to use unified ICsvService only
 						services.AddScoped<ICsvService, CsvService>();
 						services.AddScoped<ICsvFileReader, CsvFileReader>();
+						services.AddScoped<IDataConverter<List<string[]> , DataTable> , CsvToDataTableConverter>();
 
 						// File Reading Services with interfaces
 						services.AddScoped<IAnyExcelReader , AnyExcelRead>();
@@ -112,6 +113,8 @@ namespace ExcelReader.RyanW84
 							IExcelDatabaseService ,
 							WriteUpdatedExcelDataToDatabase
 						>();
+			
+
 					}
 				);
 	}

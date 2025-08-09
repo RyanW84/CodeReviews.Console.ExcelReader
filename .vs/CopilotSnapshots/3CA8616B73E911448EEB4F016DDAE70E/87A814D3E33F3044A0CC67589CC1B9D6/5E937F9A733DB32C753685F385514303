@@ -1,4 +1,4 @@
-using System.Data;
+﻿using System.Data;
 using ExcelReader.RyanW84.Abstractions.Core;
 using ExcelReader.RyanW84.Abstractions.Data.DatabaseServices;
 using ExcelReader.RyanW84.Abstractions.Data.TableCreators;

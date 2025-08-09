@@ -1,4 +1,4 @@
-using System.Data;
+﻿using System.Data;
 using System.Globalization;
 using CsvHelper;
 using CsvHelper.Configuration;
@@ -208,27 +208,26 @@ public class CsvService(
     {
         ValidateFilePath(filePath);
         
-        try
-        {
-            _notificationService.ShowInfo($"Analyzing CSV structure: {Path.GetFileName(filePath)}");
-            
-            // Get metadata first
-            var metadata = await _metadataService.GetMetadataAsync(filePath);
-            
-            // Read data
-            var dataTable = await ReadCsvAsDataTableAsync(filePath, metadata.FileName);
-            
-            return CsvOperationResult.CreateSuccess(
-                dataTable, 
-                metadata, 
-                $"Successfully loaded CSV with {dataTable.Rows.Count} rows and {dataTable.Columns.Count} columns");
-        }
-        catch (Exception ex)
-        {
-            var errorMessage = $"Error reading CSV with metadata {Path.GetFileName(filePath)}: {ex.Message}";
-            _notificationService.ShowError(errorMessage);
-            return CsvOperationResult.CreateFailure(errorMessage);
-        }
+        return await ExecuteWithErrorHandling(
+            async () =>
+            {
+                _notificationService.ShowInfo($"Analyzing CSV structure: {Path.GetFileName(filePath)}");
+                
+                // Get metadata first
+                var metadata = await _metadataService.GetMetadataAsync(filePath);
+                
+                // Read data
+                var dataTable = await ReadCsvAsDataTableAsync(filePath, metadata.FileName);
+                
+                return new CsvOperationResult
+                {
+                    Data = dataTable,
+                    Metadata = metadata,
+                    Success = true,
+                    Message = $"Successfully loaded CSV with {dataTable.Rows.Count} rows and {dataTable.Columns.Count} columns"
+                };
+            },
+            $"reading CSV with metadata {Path.GetFileName(filePath)}");
     }
 
     #region Private Helper Methods
@@ -275,4 +274,17 @@ public class CsvService(
     }
 
     #endregion
+}
+
+/// <summary>
+/// Result object for CSV operations that need to return both data and metadata.
+/// Follows the Command Query Responsibility Segregation (CQRS) principle.
+/// </summary>
+public class CsvOperationResult
+{
+    public DataTable? Data { get; set; }
+    public CsvMetadata? Metadata { get; set; }
+    public bool Success { get; set; }
+    public string Message { get; set; } = string.Empty;
+    public List<string> Warnings { get; set; } = [];
 }

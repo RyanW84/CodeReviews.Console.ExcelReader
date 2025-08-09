@@ -1,0 +1,187 @@
+﻿using System.Data;
+using System.Globalization;
+using CsvHelper;
+using CsvHelper.Configuration;
+using ExcelReader.RyanW84.Abstractions.Services;
+
+namespace ExcelReader.RyanW84.Services;
+
+/// <summary>
+/// Unified CSV service using CsvHelper for reading and writing to the same file
+/// </summary>
+public class CsvService(INotificationService notificationService) : ICsvService
+{
+    private readonly INotificationService _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
+    
+    private static readonly CsvConfiguration DefaultConfig = new(CultureInfo.InvariantCulture)
+    {
+        HasHeaderRecord = true,
+        MissingFieldFound = null, // Ignore missing fields
+        HeaderValidated = null,   // Don't validate headers
+        BadDataFound = null,      // Handle bad data gracefully
+        TrimOptions = TrimOptions.Trim,
+        DetectDelimiter = true    // Auto-detect delimiter
+    };
+
+    public async Task<List<string[]>> ReadCsvAsArraysAsync(string filePath)
+    {
+        try
+        {
+            _notificationService.ShowInfo($"Reading CSV file: {Path.GetFileName(filePath)}");
+            
+            using var reader = new StringReader(await File.ReadAllTextAsync(filePath));
+            using var csv = new CsvReader(reader, DefaultConfig);
+            
+            var records = new List<string[]>();
+            
+            // Read header
+            await csv.ReadAsync();
+            csv.ReadHeader();
+            if (csv.HeaderRecord != null)
+            {
+                records.Add(csv.HeaderRecord);
+            }
+            
+            // Read data rows
+            while (await csv.ReadAsync())
+            {
+                var values = new string[csv.HeaderRecord?.Length ?? csv.Parser.Count];
+                for (int i = 0; i < values.Length; i++)
+                {
+                    values[i] = csv.GetField(i) ?? string.Empty;
+                }
+                records.Add(values);
+            }
+
+            _notificationService.ShowSuccess($"Successfully read {records.Count - 1} data rows from CSV");
+            return records;
+        }
+        catch (Exception ex)
+        {
+            _notificationService.ShowError($"Error reading CSV file: {ex.Message}");
+            throw;
+        }
+    }
+
+    public async Task<DataTable> ReadCsvAsDataTableAsync(string filePath, string? tableName = null)
+    {
+        var dataTable = new DataTable(tableName ?? "CsvImport");
+        
+        try
+        {
+            using var reader = new StringReader(await File.ReadAllTextAsync(filePath));
+            using var csv = new CsvReader(reader, DefaultConfig);
+            
+            // Read and create columns from header
+            await csv.ReadAsync();
+            csv.ReadHeader();
+            if (csv.HeaderRecord != null)
+            {
+                foreach (var header in csv.HeaderRecord)
+                {
+                    dataTable.Columns.Add(header ?? "Unknown");
+                }
+            }
+
+            // Read data rows
+            while (await csv.ReadAsync())
+            {
+                var row = dataTable.NewRow();
+                for (int i = 0; i < dataTable.Columns.Count; i++)
+                {
+                    row[i] = csv.GetField(i) is null ? DBNull.Value : csv.GetField(i);
+                }
+                dataTable.Rows.Add(row);
+            }
+
+            _notificationService.ShowSuccess($"Converted CSV to DataTable: {dataTable.Rows.Count} rows, {dataTable.Columns.Count} columns");
+            return dataTable;
+        }
+        catch (Exception ex)
+        {
+            _notificationService.ShowError($"Error converting CSV to DataTable: {ex.Message}");
+            throw;
+        }
+    }
+
+    public async Task<List<T>> ReadCsvAsObjectsAsync<T>(string filePath)
+    {
+        try
+        {
+            using var reader = new StringReader(await File.ReadAllTextAsync(filePath));
+            using var csv = new CsvReader(reader, DefaultConfig);
+            
+            var records = csv.GetRecordsAsync<T>();
+            var result = new List<T>();
+            
+            await foreach (var record in records)
+            {
+                result.Add(record);
+            }
+
+            _notificationService.ShowSuccess($"Read {result.Count} strongly-typed records from CSV");
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _notificationService.ShowError($"Error reading CSV as objects: {ex.Message}");
+            throw;
+        }
+    }
+
+    public async Task UpdateCsvFromDataTableAsync(DataTable dataTable, string filePath)
+    {
+        try
+        {
+            using var writer = new StringWriter();
+            using var csv = new CsvWriter(writer, DefaultConfig);
+            
+            // Write headers
+            foreach (DataColumn column in dataTable.Columns)
+            {
+                csv.WriteField(column.ColumnName);
+            }
+            await csv.NextRecordAsync();
+            
+            // Write data
+            foreach (DataRow row in dataTable.Rows)
+            {
+                foreach (var field in row.ItemArray)
+                {
+                    csv.WriteField(field?.ToString() ?? string.Empty);
+                }
+                await csv.NextRecordAsync();
+            }
+            
+            await File.WriteAllTextAsync(filePath, writer.ToString());
+            _notificationService.ShowSuccess($"CSV file updated: {Path.GetFileName(filePath)}");
+        }
+        catch (Exception ex)    
+        {
+            _notificationService.ShowError($"Error updating CSV file: {ex.Message}");
+            throw;
+        }
+    }
+
+    public async Task<string> ReadAndWriteCsvAsync(string filePath, Func<DataTable, Task<DataTable>> dataProcessor)
+    {
+        try
+        {
+            // Read the existing CSV file
+            var dataTable = await ReadCsvAsDataTableAsync(filePath);
+            
+            // Process the data
+            var processedDataTable = await dataProcessor(dataTable);
+            
+            // Write back to the same file
+            await UpdateCsvFromDataTableAsync(processedDataTable, filePath);
+            
+            return filePath;
+        }
+        catch (Exception ex)
+        {
+            _notificationService.ShowError($"Error processing CSV file: {ex.Message}");
+            throw;
+        }
+    }
+}

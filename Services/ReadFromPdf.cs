@@ -27,16 +27,16 @@ public class ReadFromPdf : IPdfTableReader
 		string filePath;
 		try
 		{
-			var customDefault = @"C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Data\\TablePDF.pdf";
+			var customDefault = @"C:\Users\Ryanw\OneDrive\Documents\GitHub\Excel-Reader\Data\TablePDF.pdf";
 			filePath = _filePathManager.GetFilePath(FileType.PDF , customDefault);
 		}
 		catch (FilePathValidationException ex)
 		{
 			_userNotifier.ShowError($"PDF file path error: {ex.Message}");
-			return [];
+			return new List<string[]>(); // Change from [] to new List<string[]>()
 		}
 
-		return await Task.Run(( ) =>
+		return await Task.Run(() =>
 		{
 			_userNotifier.ShowInfo($"Opening {filePath}");
 			var result = new List<string[]>();
@@ -146,7 +146,7 @@ public class ReadFromPdf : IPdfTableReader
 			}
 
 			// Add data rows, starting from the second row if the first was used for headers
-			var startRow = pdfData.Count > 1 && pdfData[0].Length == maxColumns ? 1 : 0;
+			var startRow = pdfData.Count > 1 && pdfData[2].Length == maxColumns ? 1 : 0;
 
 			for (int rowIndex = startRow; rowIndex < pdfData.Count; rowIndex++)
 			{
