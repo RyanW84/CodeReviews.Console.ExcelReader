@@ -18,7 +18,7 @@ public class AnyExcelRead(IFilePathService filePathManager, INotificationService
         string filePath;
         try
         {
-            var customDefault = @"C:\Users\Ryanw\OneDrive\Documents\GitHub\Excel-Reader\Data\ExcelDynamic.Xlsx";
+            var customDefault = @"C:\Users\Ryanw\OneDrive\Documents\GitHub\CodeReviews.Console.ExcelReader\Data\ExcelDynamic.Xlsx";
             filePath = _filePathManager.GetFilePath(FileType.Excel, customDefault);
         }
         catch (FilePathValidationException ex)
@@ -53,7 +53,7 @@ public class AnyExcelRead(IFilePathService filePathManager, INotificationService
             ExcelPackage.License.SetNonCommercialPersonal("Ryan Weavers");
 
             using var package = new ExcelPackage(new FileInfo(filePath));
-            var worksheet = package.Workbook.Worksheets[0]; // Get first worksheet
+            ExcelWorksheet worksheet = package.Workbook.Worksheets[0]; // Get first worksheet
 
             var dataTable = new DataTable();
 

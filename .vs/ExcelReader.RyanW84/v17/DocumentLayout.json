@@ -1,81 +1,109 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\",
+  "WorkspaceRootPath": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\excel-reader\\readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
-      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\services\\readfrompdf.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:services\\readfrompdf.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\excel-reader\\controller\\pdfformcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:controller\\pdfformcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\excel-reader\\userinterface\\mainmenuui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:userinterface\\mainmenuui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\excel-reader\\helpers\\filepathmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:helpers\\filepathmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\excel-reader\\controller\\csvcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:controller\\csvcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\excel-reader\\helpers\\createtablefromanyexcel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:helpers\\createtablefromanyexcel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\excel-reader\\controller\\excelwritecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\controller\\excelwritecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:controller\\excelwritecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\excel-reader\\abstractions\\core\\itablemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:abstractions\\core\\itablemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\excel-reader\\helpers\\tableexistence.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:helpers\\tableexistence.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\excel-reader\\excelreader.ryanw84.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:excelreader.ryanw84.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\services\\readfromcsv.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:services\\readfromcsv.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\excel-reader\\controller\\excelbeginnercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:controller\\excelbeginnercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\helpers\\sqldatatypemapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:helpers\\sqldatatypemapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\excel-reader\\controller\\dataimportcontrollerbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:controller\\dataimportcontrollerbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\services\\excelbeginnerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:services\\excelbeginnerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\excel-reader\\controller\\pdfformwritecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:controller\\pdfformwritecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\helpers\\createtablefromanyexcel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:helpers\\createtablefromanyexcel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\excel-reader\\helpers\\createtablefromcsv.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:helpers\\createtablefromcsv.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\services\\anyexcelread.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:services\\anyexcelread.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\excel-reader\\abstractions\\data\\tablecreators\\icsvtablecreator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:abstractions\\data\\tablecreators\\icsvtablecreator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\excel-reader\\helpers\\datarowextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:helpers\\datarowextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\excel-reader\\controller\\anyexcelreadcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\controller\\anyexcelreadcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:controller\\anyexcelreadcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\excel-reader\\controller\\pdftablecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\helpers\\filepathmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:helpers\\filepathmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\controller\\pdfformcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:controller\\pdfformcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\userinterface\\mainmenuui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:userinterface\\mainmenuui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\controller\\csvcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:controller\\csvcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\abstractions\\core\\itablemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:abstractions\\core\\itablemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\helpers\\tableexistence.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:helpers\\tableexistence.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\excelreader.ryanw84.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:excelreader.ryanw84.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\controller\\excelbeginnercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:controller\\excelbeginnercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\controller\\dataimportcontrollerbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:controller\\dataimportcontrollerbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\controller\\pdfformwritecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:controller\\pdfformwritecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\helpers\\createtablefromcsv.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:helpers\\createtablefromcsv.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\abstractions\\data\\tablecreators\\icsvtablecreator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:abstractions\\data\\tablecreators\\icsvtablecreator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\helpers\\datarowextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:helpers\\datarowextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\controller\\pdftablecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:controller\\pdftablecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\excel-reader\\data\\excelreaderdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\data\\excelreaderdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:data\\excelreaderdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -86,7 +114,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -94,24 +122,166 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MainMenuUI.cs",
-              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\UserInterface\\MainMenuUI.cs",
-              "RelativeDocumentMoniker": "UserInterface\\MainMenuUI.cs",
-              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\UserInterface\\MainMenuUI.cs",
-              "RelativeToolTip": "UserInterface\\MainMenuUI.cs",
-              "ViewState": "AgIAAFoAAAAAAAAAAAAlwGoAAABBAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "SqlDataTypeMapper.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Helpers\\SqlDataTypeMapper.cs",
+              "RelativeDocumentMoniker": "Helpers\\SqlDataTypeMapper.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Helpers\\SqlDataTypeMapper.cs",
+              "RelativeToolTip": "Helpers\\SqlDataTypeMapper.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-08T12:22:37.426Z",
+              "WhenOpened": "2025-08-09T20:08:38.227Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ReadFromCsv.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Services\\ReadFromCsv.cs",
+              "RelativeDocumentMoniker": "Services\\ReadFromCsv.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Services\\ReadFromCsv.cs",
+              "RelativeToolTip": "Services\\ReadFromCsv.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAiwBUAAABVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-09T20:08:25.756Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAAAAIAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-08-09T20:08:13.682Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "ExcelWriteController.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Controller\\ExcelWriteController.cs",
+              "RelativeDocumentMoniker": "Controller\\ExcelWriteController.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Controller\\ExcelWriteController.cs",
+              "RelativeToolTip": "Controller\\ExcelWriteController.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAswCQAAACBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-08T12:13:42.809Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "README.md",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\README.md",
+              "RelativeDocumentMoniker": "README.md",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\README.md",
+              "RelativeToolTip": "README.md",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAawF4AAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2025-08-07T21:02:25.306Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ReadFromPdf.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Services\\ReadFromPdf.cs",
+              "RelativeDocumentMoniker": "Services\\ReadFromPdf.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Services\\ReadFromPdf.cs",
+              "RelativeToolTip": "Services\\ReadFromPdf.cs",
+              "ViewState": "AgIAAIgAAAAAAAAAAAAywJQAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-09T20:07:16.938Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ExcelBeginnerService.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Services\\ExcelBeginnerService.cs",
+              "RelativeDocumentMoniker": "Services\\ExcelBeginnerService.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Services\\ExcelBeginnerService.cs",
+              "RelativeToolTip": "Services\\ExcelBeginnerService.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAIAxwCIAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-09T20:08:16.074Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AnyExcelRead.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Services\\AnyExcelRead.cs",
+              "RelativeDocumentMoniker": "Services\\AnyExcelRead.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Services\\AnyExcelRead.cs",
+              "RelativeToolTip": "Services\\AnyExcelRead.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAAQwDcAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-09T19:48:22.016Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "ExcelReader.RyanW84.csproj",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\ExcelReader.RyanW84.csproj",
+              "RelativeDocumentMoniker": "ExcelReader.RyanW84.csproj",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\ExcelReader.RyanW84.csproj",
+              "RelativeToolTip": "ExcelReader.RyanW84.csproj",
+              "ViewState": "AgIAAAEAAAAAAAAAAIAzwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-08-07T21:03:30.056Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AnyExcelReadController.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Controller\\AnyExcelReadController.cs",
+              "RelativeDocumentMoniker": "Controller\\AnyExcelReadController.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Controller\\AnyExcelReadController.cs",
+              "RelativeToolTip": "Controller\\AnyExcelReadController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-07T13:37:49.609Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "FilePathManager.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Helpers\\FilePathManager.cs",
+              "RelativeDocumentMoniker": "Helpers\\FilePathManager.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Helpers\\FilePathManager.cs",
+              "RelativeToolTip": "Helpers\\FilePathManager.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAASwDUAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-08T12:18:48.705Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CreateTableFromAnyExcel.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Helpers\\CreateTableFromAnyExcel.cs",
+              "RelativeDocumentMoniker": "Helpers\\CreateTableFromAnyExcel.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Helpers\\CreateTableFromAnyExcel.cs",
+              "RelativeToolTip": "Helpers\\CreateTableFromAnyExcel.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAgwBgAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-07T20:45:53.511Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
               "Title": "PdfFormController.cs",
-              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Controller\\PdfFormController.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Controller\\PdfFormController.cs",
               "RelativeDocumentMoniker": "Controller\\PdfFormController.cs",
-              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Controller\\PdfFormController.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Controller\\PdfFormController.cs",
               "RelativeToolTip": "Controller\\PdfFormController.cs",
               "ViewState": "AgIAAAUAAAAAAAAAAAAAwBgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -120,49 +290,37 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "FilePathManager.cs",
-              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Helpers\\FilePathManager.cs",
-              "RelativeDocumentMoniker": "Helpers\\FilePathManager.cs",
-              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Helpers\\FilePathManager.cs",
-              "RelativeToolTip": "Helpers\\FilePathManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABdAAAAAAAAAA==",
+              "DocumentIndex": 13,
+              "Title": "MainMenuUI.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\UserInterface\\MainMenuUI.cs",
+              "RelativeDocumentMoniker": "UserInterface\\MainMenuUI.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\UserInterface\\MainMenuUI.cs",
+              "RelativeToolTip": "UserInterface\\MainMenuUI.cs",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAlwGoAAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-08T12:18:48.705Z",
+              "WhenOpened": "2025-08-08T12:22:37.426Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "README.md",
-              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\README.md",
-              "RelativeDocumentMoniker": "README.md",
-              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\README.md",
-              "RelativeToolTip": "README.md",
-              "ViewState": "AgIAANcAAAAAAAAAAADwv6cAAAA6AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
-              "WhenOpened": "2025-08-07T21:02:25.306Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "ExcelReader.RyanW84.csproj",
-              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\ExcelReader.RyanW84.csproj",
-              "RelativeDocumentMoniker": "ExcelReader.RyanW84.csproj",
-              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\ExcelReader.RyanW84.csproj",
-              "RelativeToolTip": "ExcelReader.RyanW84.csproj",
-              "ViewState": "AgIAAAEAAAAAAAAAAIAzwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-08-07T21:03:30.056Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 11,
+              "Title": ".gitignore",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\.gitignore",
+              "RelativeDocumentMoniker": ".gitignore",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\.gitignore",
+              "RelativeToolTip": ".gitignore",
+              "ViewState": "AgIAACAAAAAAAAAAAAAuwC4AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-08-09T19:47:43.884Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
               "Title": "DataImportControllerBase.cs",
-              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Controller\\DataImportControllerBase.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Controller\\DataImportControllerBase.cs",
               "RelativeDocumentMoniker": "Controller\\DataImportControllerBase.cs",
-              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Controller\\DataImportControllerBase.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Controller\\DataImportControllerBase.cs",
               "RelativeToolTip": "Controller\\DataImportControllerBase.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -171,24 +329,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "CreateTableFromAnyExcel.cs",
-              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Helpers\\CreateTableFromAnyExcel.cs",
-              "RelativeDocumentMoniker": "Helpers\\CreateTableFromAnyExcel.cs",
-              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Helpers\\CreateTableFromAnyExcel.cs",
-              "RelativeToolTip": "Helpers\\CreateTableFromAnyExcel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwA4AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-07T20:45:53.511Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 14,
               "Title": "CsvController.cs",
-              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Controller\\CsvController.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Controller\\CsvController.cs",
               "RelativeDocumentMoniker": "Controller\\CsvController.cs",
-              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Controller\\CsvController.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Controller\\CsvController.cs",
               "RelativeToolTip": "Controller\\CsvController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -197,24 +342,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ExcelWriteController.cs",
-              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Controller\\ExcelWriteController.cs",
-              "RelativeDocumentMoniker": "Controller\\ExcelWriteController.cs",
-              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Controller\\ExcelWriteController.cs",
-              "RelativeToolTip": "Controller\\ExcelWriteController.cs",
-              "ViewState": "AgIAADcAAAAAAAAAAAAUwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-08T12:13:42.809Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 15,
               "Title": "ITableManager.cs",
-              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Abstractions\\Core\\ITableManager.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Abstractions\\Core\\ITableManager.cs",
               "RelativeDocumentMoniker": "Abstractions\\Core\\ITableManager.cs",
-              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Abstractions\\Core\\ITableManager.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Abstractions\\Core\\ITableManager.cs",
               "RelativeToolTip": "Abstractions\\Core\\ITableManager.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -223,11 +355,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 18,
               "Title": "ExcelBeginnerController.cs",
-              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Controller\\ExcelBeginnerController.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Controller\\ExcelBeginnerController.cs",
               "RelativeDocumentMoniker": "Controller\\ExcelBeginnerController.cs",
-              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Controller\\ExcelBeginnerController.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Controller\\ExcelBeginnerController.cs",
               "RelativeToolTip": "Controller\\ExcelBeginnerController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwA8AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -236,11 +368,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 16,
               "Title": "TableExistence.cs",
-              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Helpers\\TableExistence.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Helpers\\TableExistence.cs",
               "RelativeDocumentMoniker": "Helpers\\TableExistence.cs",
-              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Helpers\\TableExistence.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Helpers\\TableExistence.cs",
               "RelativeToolTip": "Helpers\\TableExistence.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwA4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -249,11 +381,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 20,
               "Title": "PdfFormWriteController.cs",
-              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Controller\\PdfFormWriteController.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Controller\\PdfFormWriteController.cs",
               "RelativeDocumentMoniker": "Controller\\PdfFormWriteController.cs",
-              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Controller\\PdfFormWriteController.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Controller\\PdfFormWriteController.cs",
               "RelativeToolTip": "Controller\\PdfFormWriteController.cs",
               "ViewState": "AgIAAHIAAAAAAAAAAAAhwFkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -262,11 +394,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 21,
               "Title": "CreateTableFromCSV.cs",
-              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Helpers\\CreateTableFromCSV.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Helpers\\CreateTableFromCSV.cs",
               "RelativeDocumentMoniker": "Helpers\\CreateTableFromCSV.cs",
-              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Helpers\\CreateTableFromCSV.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Helpers\\CreateTableFromCSV.cs",
               "RelativeToolTip": "Helpers\\CreateTableFromCSV.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwA4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -275,11 +407,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 22,
               "Title": "ICsvTableCreator.cs",
-              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Abstractions\\Data\\TableCreators\\ICsvTableCreator.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Abstractions\\Data\\TableCreators\\ICsvTableCreator.cs",
               "RelativeDocumentMoniker": "Abstractions\\Data\\TableCreators\\ICsvTableCreator.cs",
-              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Abstractions\\Data\\TableCreators\\ICsvTableCreator.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Abstractions\\Data\\TableCreators\\ICsvTableCreator.cs",
               "RelativeToolTip": "Abstractions\\Data\\TableCreators\\ICsvTableCreator.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -288,11 +420,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 23,
               "Title": "DataRowExtensions.cs",
-              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Helpers\\DataRowExtensions.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Helpers\\DataRowExtensions.cs",
               "RelativeDocumentMoniker": "Helpers\\DataRowExtensions.cs",
-              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Helpers\\DataRowExtensions.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Helpers\\DataRowExtensions.cs",
               "RelativeToolTip": "Helpers\\DataRowExtensions.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -301,11 +433,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 24,
               "Title": "PdfTableController.cs",
-              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Controller\\PdfTableController.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Controller\\PdfTableController.cs",
               "RelativeDocumentMoniker": "Controller\\PdfTableController.cs",
-              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Controller\\PdfTableController.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Controller\\PdfTableController.cs",
               "RelativeToolTip": "Controller\\PdfTableController.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAAAAwBMAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -314,24 +446,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "AnyExcelReadController.cs",
-              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Controller\\AnyExcelReadController.cs",
-              "RelativeDocumentMoniker": "Controller\\AnyExcelReadController.cs",
-              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Controller\\AnyExcelReadController.cs",
-              "RelativeToolTip": "Controller\\AnyExcelReadController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwBMAAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-07T13:37:49.609Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 25,
               "Title": "ExcelReaderDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Data\\ExcelReaderDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Data\\ExcelReaderDbContext.cs",
               "RelativeDocumentMoniker": "Data\\ExcelReaderDbContext.cs",
-              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Data\\ExcelReaderDbContext.cs",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Data\\ExcelReaderDbContext.cs",
               "RelativeToolTip": "Data\\ExcelReaderDbContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAkAAAB3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",

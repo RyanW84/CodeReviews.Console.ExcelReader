@@ -34,7 +34,7 @@ public class ExcelWriteController(
         {
             // 1. Get file path from user via FilePathManager
             // Use a custom default path for Excel files
-            var customDefault = @"C:\Users\Ryanw\OneDrive\Documents\GitHub\\Excel-Reader\Data\ExcelDynamic.Xlsx";
+            var customDefault = @"C:\Users\Ryanw\OneDrive\Documents\GitHub\CodeReviews.Console.ExcelReader\Data\ExcelDynamic.Xlsx";
             var filePath = _filePathManager.GetFilePath(FileType.Excel,customDefault);
 
             // 2. Get existing field values from Excel using the obtained file path

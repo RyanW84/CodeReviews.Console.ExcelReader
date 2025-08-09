@@ -32,7 +32,7 @@ public class ExcelBeginnerService : IExcelBeginnerService
         {
             // Use a custom default path for ExcelBeginner specific file
             var customDefault =
-                @"C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Data\\ExcelBeginner.xlsx";
+                @"C:\Users\Ryanw\OneDrive\Documents\GitHub\Excel-Reader\Data\ExcelBeginner.xlsx";
             var filePath = _filePathService.GetFilePath(FileType.Excel, customDefault);
 
             var dataTable = await _excelReader.ReadAsync(filePath);

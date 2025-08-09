@@ -19,7 +19,7 @@ public class ReadFromCsv(IFilePathService filePathManager, INotificationService 
         string filePath;
         try
         {
-			var customDefault = "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\Excel-Reader\\Data\\ExcelCSV.CSV";
+			var customDefault = @"C:\Users\Ryanw\OneDrive\Documents\GitHub\Excel-Reader\Data\\ExcelCSV.CSV";
 			filePath = _filePathManager.GetFilePath(FileType.CSV, customDefault);
         }
         catch (FilePathValidationException ex)
