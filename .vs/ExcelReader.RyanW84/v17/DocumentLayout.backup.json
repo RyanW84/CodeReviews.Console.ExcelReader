@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\.gitignore .gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:.gitignore .gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|c:\\users\\ryanw\\onedrive\\documents\\github\\codereviews.console.excelreader\\readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
       "RelativeMoniker": "D:0:0:{63C3CA19-D72D-4B1C-8529-78210BD1C66E}|ExcelReader.RyanW84.csproj|solutionrelative:readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
     },
@@ -70,7 +74,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -78,7 +82,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": ".gitignore .gitignore",
+              "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\.gitignore .gitignore",
+              "RelativeDocumentMoniker": ".gitignore .gitignore",
+              "ToolTip": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\.gitignore .gitignore",
+              "RelativeToolTip": ".gitignore .gitignore",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAANcBAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-08-10T19:57:51.081Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "MainMenuUI.cs",
               "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\UserInterface\\MainMenuUI.cs",
               "RelativeDocumentMoniker": "UserInterface\\MainMenuUI.cs",
@@ -91,7 +108,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "CreateTableFromCSV.cs",
               "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Helpers\\CreateTableFromCSV.cs",
               "RelativeDocumentMoniker": "Helpers\\CreateTableFromCSV.cs",
@@ -104,7 +121,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "ICsvFileReader.cs",
               "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Abstractions\\FileOperations\\Readers\\ICsvFileReader.cs",
               "RelativeDocumentMoniker": "Abstractions\\FileOperations\\Readers\\ICsvFileReader.cs",
@@ -117,7 +134,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "CsvFileReader.cs",
               "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Services\\CsvFileReader.cs",
               "RelativeDocumentMoniker": "Services\\CsvFileReader.cs",
@@ -130,7 +147,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "ReadFromPdf.cs",
               "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Services\\ReadFromPdf.cs",
               "RelativeDocumentMoniker": "Services\\ReadFromPdf.cs",
@@ -143,7 +160,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "ICsvService.cs",
               "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Abstractions\\Services\\ICsvService.cs",
               "RelativeDocumentMoniker": "Abstractions\\Services\\ICsvService.cs",
@@ -156,7 +173,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "AnyExcel.cs",
               "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Models\\AnyExcel.cs",
               "RelativeDocumentMoniker": "Models\\AnyExcel.cs",
@@ -169,7 +186,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "README.md",
               "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\README.md",
               "RelativeDocumentMoniker": "README.md",
@@ -182,7 +199,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -195,7 +212,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "CsvService.cs",
               "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Services\\CsvService.cs",
               "RelativeDocumentMoniker": "Services\\CsvService.cs",
@@ -208,7 +225,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "CsvController.cs",
               "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Controller\\CsvController.cs",
               "RelativeDocumentMoniker": "Controller\\CsvController.cs",
@@ -221,7 +238,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "ExcelBeginner.cs",
               "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Models\\ExcelBeginner.cs",
               "RelativeDocumentMoniker": "Models\\ExcelBeginner.cs",
@@ -234,7 +251,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "AnyExcelRead.cs",
               "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Services\\AnyExcelRead.cs",
               "RelativeDocumentMoniker": "Services\\AnyExcelRead.cs",
@@ -247,7 +264,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "SqlDataTypeMapper.cs",
               "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\Helpers\\SqlDataTypeMapper.cs",
               "RelativeDocumentMoniker": "Helpers\\SqlDataTypeMapper.cs",
@@ -260,7 +277,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\Ryanw\\OneDrive\\Documents\\GitHub\\CodeReviews.Console.ExcelReader\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
