@@ -9,8 +9,11 @@
 
     <ItemGroup>
       <Compile Remove="Abstractions\Excel - Copy\**" />
+      <Compile Remove="Data\Migrations\**" />
       <EmbeddedResource Remove="Abstractions\Excel - Copy\**" />
+      <EmbeddedResource Remove="Data\Migrations\**" />
       <None Remove="Abstractions\Excel - Copy\**" />
+      <None Remove="Data\Migrations\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -39,10 +42,6 @@
       <None Update="appsettings.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Data\Migrations\" />
     </ItemGroup>
 
 </Project>

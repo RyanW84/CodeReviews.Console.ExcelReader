@@ -87,16 +87,17 @@ The following NuGet packages are used in this project:
 
 ## Installation
 
-1. Clone the repository "git clone https://github.com/RyanW84/ExcelReader.RyanW84.git cd ExcelReader.RyanW84"
-2. Restore NuGet packages using the following command:
+1. Clone the repository "git clone https://github.com/RyanW84/ExcelReader.RyanW84.git"
+2. Change directory into the project folder "cd ExcelReader.RyanW84"
+3. Restore NuGet packages using the following command:
    "dotnet restore"
-3. **Configure Database** (Optional)
+4. **Configure Database** (Optional)
    - Update connection string in `appsettings.json` if needed
    - Default uses SQL Server LocalDB: `(localdb)\\MSSQLlocaldb`
 
-	4. **Build the solution:**
+5. **Build the solution:**
    "dotnet build"
-5. Run the application:
+6. Run the application:
    "dotnet run"
    Ensure the Excel file is present in the project directory for import functionality
 
@@ -153,7 +154,7 @@ When you run the application, you'll see an interactive menu:
 
 ## Project Structure
 ExcelReader.RyanW84/ 
-├── 📁 Abstractions/           # Interface definitions and contracts 
+├── 📁 Abstractions/           # Interface definitions and contracts <br>
 │   ├── 📁 Base/              # Base interfaces (IRepository, IFileReader) <br>
 │   ├── 📁 Common/            # Common abstractions (FileType, Validation) <br>
 │   ├── 📁 Core/              # Core interfaces (IDataConverter, ITableManager) <br>

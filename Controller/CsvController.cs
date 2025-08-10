@@ -4,12 +4,13 @@ using ExcelReader.RyanW84.Abstractions.Data.DatabaseServices;
 using ExcelReader.RyanW84.Abstractions.Data.TableCreators;
 using ExcelReader.RyanW84.Abstractions.FileOperations.Readers;
 using ExcelReader.RyanW84.Abstractions.Services;
+using ExcelReader.RyanW84.Helpers;
 
 namespace ExcelReader.RyanW84.Controller;
 
 /// <summary>
-/// CSV controller following SOLID principles with clear separation of concerns.
-/// Acts as an orchestrator for CSV operations, delegating specific tasks to appropriate services.
+/// Simplified CSV controller focused exclusively on DataTable operations.
+/// Removes unnecessary data converters and complex workflows.
 /// </summary>
 public class CsvController(
     IExcelReaderDbContext dbContext,
@@ -17,48 +18,32 @@ public class CsvController(
     ICsvTableCreator createTableFromCSV,
     INotificationService notificationService,
     IFilePathService filePathService,
-    ICsvFileReader csvFileReader,
-    IDataConverter<List<string[]>, DataTable> csvDataConverter
+    ICsvFileReader csvFileReader
 ) : DataImportControllerBase(dbContext, notificationService)
 {
     private readonly ICsvService _csvService = csvService ?? throw new ArgumentNullException(nameof(csvService));
     private readonly ICsvFileReader _csvFileReader = csvFileReader ?? throw new ArgumentNullException(nameof(csvFileReader));
     private readonly ICsvTableCreator _createTableFromCSV = createTableFromCSV ?? throw new ArgumentNullException(nameof(createTableFromCSV));
-    private readonly IDataConverter<List<string[]>, DataTable> _csvDataConverter = csvDataConverter ?? throw new ArgumentNullException(nameof(csvDataConverter));
     private readonly IFilePathService _filePathService = filePathService ?? throw new ArgumentNullException(nameof(filePathService));
 
     /// <summary>
-    /// Imports CSV data using the template method pattern from base class.
-    /// This method demonstrates the Open/Closed principle - behavior is extended without modifying base functionality.
+    /// Simple CSV import using DataTable exclusively.
     /// </summary>
-    public async Task AddDataFromCsv()
-    {
-        await ExecuteTableImportAsync(
-            _csvFileReader,
-            _createTableFromCSV,
-            "CSV",
-            ConvertCsvDataToDataTable,
-            (creator, dataTable) => creator.CreateTableFromCsvDataAsync(dataTable),
-            "CsvImport"
-        );
-    }
-
-    /// <summary>
-    /// Advanced CSV import with custom file path and validation.
-    /// Demonstrates extensibility through composition rather than inheritance.
-    /// </summary>
-    public async Task ImportCsvWithValidation(string? customFilePath = null)
+    public async Task ImportCsvAsync()
     {
         await ExecuteOperationAsync(async () =>
         {
-            ValidateNotNullOrEmpty(customFilePath ?? "default", nameof(customFilePath));
-            
-            NotificationService.ShowInfo("Starting validated CSV import...");
+            NotificationService.ShowInfo("Starting CSV import...");
 
-            // Use ICsvService directly for more control
-            var filePath = customFilePath ?? GetDefaultCsvPath();
-            var dataTable = await _csvService.ReadCsvAsDataTableAsync(filePath, "CsvImport");
+            // Direct DataTable reading - no conversions needed
+            var dataTable = await _csvFileReader.ReadCsvFileAsync();
             
+            if (dataTable.Rows.Count == 0)
+            {
+                NotificationService.ShowWarning("CSV file contains no data to import.");
+                return;
+            }
+
             // Validate data quality
             ValidateDataQuality(dataTable);
 
@@ -66,14 +51,48 @@ public class CsvController(
             await _createTableFromCSV.CreateTableFromCsvDataAsync(dataTable);
             await SaveChangesAsync();
 
-            NotificationService.ShowSuccess($"CSV import completed with {dataTable.Rows.Count} records validated and imported.");
+            NotificationService.ShowSuccess($"CSV import completed: {dataTable.Rows.Count} records imported.");
+        }, "CSV import");
+    }
+
+    /// <summary>
+    /// CSV import with custom file path and validation.
+    /// </summary>
+    public async Task ImportCsvAsync(string filePath)
+    {
+        await ExecuteOperationAsync(async () =>
+        {
+            ValidateNotNullOrEmpty(filePath, nameof(filePath));
+            
+            NotificationService.ShowInfo("Starting validated CSV import...");
+
+            // Direct DataTable reading with custom path
+            var dataTable = await _csvFileReader.ReadCsvFileAsync(filePath);
+            
+            if (dataTable.Rows.Count == 0)
+            {
+                NotificationService.ShowWarning("CSV file contains no data to import.");
+                return;
+            }
+
+            // Validate data quality
+            ValidateDataQuality(dataTable);
+
+            // Set appropriate table name
+            dataTable.TableName = $"CsvImport_{Path.GetFileNameWithoutExtension(filePath)}";
+
+            // Create table and save
+            await _createTableFromCSV.CreateTableFromCsvDataAsync(dataTable);
+            await SaveChangesAsync();
+
+            NotificationService.ShowSuccess($"CSV import completed: {dataTable.Rows.Count} records validated and imported.");
         }, "validated CSV import");
     }
 
     /// <summary>
-    /// Batch CSV processing - demonstrates how the controller can orchestrate complex workflows.
+    /// Batch CSV processing using DataTable exclusively.
     /// </summary>
-    public async Task ProcessMultipleCsvFiles(string[] filePaths)
+    public async Task ProcessMultipleCsvFilesAsync(string[] filePaths)
     {
         ValidateNotNull(filePaths, nameof(filePaths));
 
@@ -88,7 +107,7 @@ public class CsvController(
             {
                 try
                 {
-                    var dataTable = await _csvService.ReadCsvAsDataTableAsync(filePath);
+                    var dataTable = await _csvFileReader.ReadCsvFileAsync(filePath);
                     if (dataTable.Rows.Count > 0)
                     {
                         dataTable.TableName = $"CsvImport_{Path.GetFileNameWithoutExtension(filePath)}";
@@ -108,17 +127,7 @@ public class CsvController(
     }
 
     /// <summary>
-    /// Converts raw CSV data to DataTable using the injected converter.
-    /// This private method encapsulates the conversion logic and maintains single responsibility.
-    /// </summary>
-    private async Task<DataTable> ConvertCsvDataToDataTable(ICsvFileReader reader)
-    {
-        var csvData = await reader.ReadCsvFile();
-        return await _csvDataConverter.ConvertAsync(csvData);
-    }
-
-    /// <summary>
-    /// Validates data quality - demonstrates how business rules can be encapsulated.
+    /// Validates DataTable data quality.
     /// </summary>
     private void ValidateDataQuality(DataTable dataTable)
     {
@@ -128,12 +137,12 @@ public class CsvController(
         if (dataTable.Columns.Count == 0)
             throw new InvalidOperationException("CSV file contains no columns.");
 
-        // Additional business rule validations can be added here
+        // Count empty rows
         var emptyRows = dataTable.Rows.Cast<DataRow>()
             .Count(row => row.ItemArray.All(field => field == DBNull.Value || string.IsNullOrWhiteSpace(field?.ToString())));
 
         if (emptyRows > 0)
-            NotificationService.ShowWarning($"Found {emptyRows} empty rows that will be skipped.");
+            NotificationService.ShowWarning($"Found {emptyRows} empty rows that will be processed.");
     }
 
     /// <summary>

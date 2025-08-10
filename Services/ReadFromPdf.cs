@@ -9,18 +9,12 @@ using ExcelReader.RyanW84.Abstractions.Services;
 using ExcelReader.RyanW84.Abstractions.FileOperations.Readers;
 using ExcelReader.RyanW84.Abstractions.Common;
 
-namespace ExcelReader.RyanW84.Abstractions;
+namespace ExcelReader.RyanW84.Services;
 
-public class ReadFromPdf : IPdfTableReader
+public class ReadFromPdf(IFilePathService filePathManager , INotificationService userNotifier) : IPdfTableReader
 {
-	private readonly IFilePathService _filePathManager;
-	private readonly INotificationService _userNotifier;
-
-	public ReadFromPdf(IFilePathService filePathManager , INotificationService userNotifier)
-	{
-		_filePathManager = filePathManager;
-		_userNotifier = userNotifier;
-	}
+	private readonly IFilePathService _filePathManager = filePathManager;
+	private readonly INotificationService _userNotifier = userNotifier;
 
 	public async Task<List<string[]>> ReadPdfFileAsync( )
 	{
@@ -33,7 +27,7 @@ public class ReadFromPdf : IPdfTableReader
 		catch (FilePathValidationException ex)
 		{
 			_userNotifier.ShowError($"PDF file path error: {ex.Message}");
-			return new List<string[]>(); // Change from [] to new List<string[]>()
+			return []; 
 		}
 
 		return await Task.Run(() =>
@@ -110,7 +104,7 @@ public class ReadFromPdf : IPdfTableReader
 		}
 
 		// Fall back to basic whitespace splitting if we can't identify a clear structure
-		return line.Split(new[] { ' ' } , StringSplitOptions.RemoveEmptyEntries);
+		return line.Split([' '] , StringSplitOptions.RemoveEmptyEntries);
 	}
 
 	public List<string[]> ReadPdfFile( )

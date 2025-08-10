@@ -1,5 +1,4 @@
-﻿using ExcelReader.RyanW84.Abstractions;
-using ExcelReader.RyanW84.Abstractions.Common;
+﻿using ExcelReader.RyanW84.Abstractions.Common;
 using ExcelReader.RyanW84.Abstractions.Core;
 using ExcelReader.RyanW84.Abstractions.Data.DatabaseServices;
 using ExcelReader.RyanW84.Abstractions.Data.TableCreators;
@@ -33,15 +32,16 @@ namespace ExcelReader.RyanW84
 			context.EnsureDeleted();
 			context.EnsureCreated();
 
-			// Show main menu - updated to match cleaned MainMenuUI constructor
+			
 			var mainMenu = new MainMenuUI(
-				services.GetRequiredService<ExcelWriteController>() ,
-				services.GetRequiredService<PdfFormWriteController>() ,
-				services.GetRequiredService<CsvController>() ,
-				services.GetRequiredService<AnyExcelReadController>() ,
-				services.GetRequiredService<ExcelBeginnerController>() ,
-				services.GetRequiredService<PdfTableController>() ,
-				services.GetRequiredService<PdfFormController>()
+				services.GetRequiredService<ExcelWriteController>(),
+				services.GetRequiredService<PdfFormWriteController>(),
+				services.GetRequiredService<CsvController>(),
+				services.GetRequiredService<AnyExcelReadController>(),
+				services.GetRequiredService<ExcelBeginnerController>(),
+				services.GetRequiredService<PdfTableController>(),
+				services.GetRequiredService<PdfFormController>(),
+				services.GetRequiredService<INotificationService>()
 			);
 			await mainMenu.ShowMenuAsync();
 		}
@@ -89,7 +89,6 @@ namespace ExcelReader.RyanW84
 						// CSV SERVICE - Updated to use unified ICsvService only
 						services.AddScoped<ICsvService, CsvService>();
 						services.AddScoped<ICsvFileReader, CsvFileReader>();
-						services.AddScoped<IDataConverter<List<string[]> , DataTable> , CsvToDataTableConverter>();
 
 						// File Reading Services with interfaces
 						services.AddScoped<IAnyExcelReader , AnyExcelRead>();

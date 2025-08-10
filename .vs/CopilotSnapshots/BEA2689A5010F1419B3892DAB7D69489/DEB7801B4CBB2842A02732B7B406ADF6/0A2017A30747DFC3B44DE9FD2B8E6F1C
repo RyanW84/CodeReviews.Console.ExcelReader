@@ -1,9 +1,0 @@
-﻿using System.Data;
-
-namespace ExcelReader.RyanW84.Abstractions;
-
-public interface IExcelBeginnerService
-{
-    Task<DataTable> ReadFromExcelAsync();
-    DataTable ReadFromExcel();
-}

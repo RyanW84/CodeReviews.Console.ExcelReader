@@ -1,62 +1,59 @@
-using System.Data;
-using ExcelReader.RyanW84.Abstractions.Common;
-using ExcelReader.RyanW84.Abstractions.Core;
 using ExcelReader.RyanW84.Abstractions.FileOperations.Readers;
 using ExcelReader.RyanW84.Abstractions.Services;
+using ExcelReader.RyanW84.Abstractions.Common;
+using System.Data;
 
 namespace ExcelReader.RyanW84.Services;
 
 /// <summary>
-/// CSV file reader following Single Responsibility Principle.
-/// Focused solely on reading CSV files and delegating actual parsing to specialized services.
-/// Follows Dependency Inversion - depends on abstractions, not concretions.
+/// Simplified CSV file reader focused exclusively on DataTable operations.
+/// Eliminates unnecessary conversions and delegates all parsing to ICsvService.
 /// </summary>
 public class CsvFileReader(
     IFilePathService filePathService,
     INotificationService notificationService,
-    ICsvService csvService) : ICsvFileReader
+    ICsvService csvService
+) : ICsvFileReader
 {
     private readonly IFilePathService _filePathService =
         filePathService ?? throw new ArgumentNullException(nameof(filePathService));
-    private readonly INotificationService _notificationService = 
+    private readonly INotificationService _notificationService =
         notificationService ?? throw new ArgumentNullException(nameof(notificationService));
-    private readonly ICsvService _csvService = 
+    private readonly ICsvService _csvService =
         csvService ?? throw new ArgumentNullException(nameof(csvService));
 
     /// <summary>
-    /// Reads CSV file using the configured file path service.
-    /// This method orchestrates file path resolution and delegates parsing to ICsvService.
+    /// Reads CSV file using the configured default path and returns as DataTable.
     /// </summary>
-    public async Task<List<string[]>> ReadCsvFile()
+    public async Task<DataTable> ReadCsvFileAsync()
+    {
+        var filePath = GetCsvFilePath();
+        return await ReadCsvFileAsync(filePath);
+    }
+
+    /// <summary>
+    /// Reads CSV file from a custom file path and returns as DataTable.
+    /// </summary>
+    public async Task<DataTable> ReadCsvFileAsync(string customFilePath)
     {
         try
         {
-            var filePath = GetCsvFilePath();
-            if (string.IsNullOrEmpty(filePath))
+            if (string.IsNullOrEmpty(customFilePath))
             {
                 _notificationService.ShowWarning("No CSV file path provided or selected.");
-                return [];
+                return new DataTable();
             }
 
-            _notificationService.ShowInfo($"Opening CSV file: {Path.GetFileName(filePath)}");
+            _notificationService.ShowInfo($"Reading CSV file: {Path.GetFileName(customFilePath)}");
 
-            // Delegate actual parsing to the CSV service
-            var csvData = await _csvService.ReadCsvAsArraysAsync(filePath);
-            
-            _notificationService.ShowSuccess($"Successfully loaded {csvData.Count} rows from CSV file.");
-            return csvData;
-        }
-        catch (FileNotFoundException ex)
-        {
-            var errorMessage = $"CSV file not found: {ex.Message}";
-            _notificationService.ShowError(errorMessage);
-            throw new InvalidOperationException(errorMessage, ex);
-        }
-        catch (UnauthorizedAccessException ex)
-        {
-            var errorMessage = $"Access denied to CSV file: {ex.Message}";
-            _notificationService.ShowError(errorMessage);
-            throw new InvalidOperationException(errorMessage, ex);
+            // Direct delegation to ICsvService - no unnecessary conversions
+            var dataTable = await _csvService.ReadCsvAsDataTableAsync(customFilePath, "CsvImport");
+
+            _notificationService.ShowSuccess(
+                $"Successfully loaded CSV: {dataTable.Rows.Count} rows, {dataTable.Columns.Count} columns"
+            );
+
+            return dataTable;
         }
         catch (Exception ex)
         {
@@ -67,73 +64,22 @@ public class CsvFileReader(
     }
 
     /// <summary>
-    /// Extended method for reading CSV with custom file path.
-    /// Demonstrates Open/Closed principle - extending functionality without modifying existing code.
-    /// </summary>
-    public async Task<List<string[]>> ReadCsvFileAsync(string customFilePath)
-    {
-        if (string.IsNullOrWhiteSpace(customFilePath))
-            throw new ArgumentException("Custom file path cannot be null or empty.", nameof(customFilePath));
-
-        try
-        {
-            _notificationService.ShowInfo($"Reading CSV from custom path: {Path.GetFileName(customFilePath)}");
-            
-            var csvData = await _csvService.ReadCsvAsArraysAsync(customFilePath);
-            
-            _notificationService.ShowSuccess($"Successfully loaded {csvData.Count} rows from custom CSV file.");
-            return csvData;
-        }
-        catch (Exception ex)
-        {
-            var errorMessage = $"Failed to read CSV from custom path '{customFilePath}': {ex.Message}";
-            _notificationService.ShowError(errorMessage);
-            throw new InvalidOperationException(errorMessage, ex);
-        }
-    }
-
-    /// <summary>
-    /// Reads CSV file and returns as DataTable for immediate database operations.
-    /// Provides a convenient method for common scenarios.
-    /// </summary>
-    public async Task<DataTable> ReadCsvAsDataTableAsync(string? customFilePath = null)
-    {
-        try
-        {
-            var filePath = customFilePath ?? GetCsvFilePath();
-            if (string.IsNullOrEmpty(filePath))
-                throw new InvalidOperationException("No valid CSV file path available.");
-
-            _notificationService.ShowInfo($"Reading CSV as DataTable: {Path.GetFileName(filePath)}");
-            
-            var dataTable = await _csvService.ReadCsvAsDataTableAsync(filePath, "CsvImport");
-            
-            _notificationService.ShowSuccess($"Successfully converted CSV to DataTable with {dataTable.Rows.Count} rows.");
-            return dataTable;
-        }
-        catch (Exception ex)
-        {
-            var errorMessage = $"Failed to read CSV as DataTable: {ex.Message}";
-            _notificationService.ShowError(errorMessage);
-            throw new InvalidOperationException(errorMessage, ex);
-        }
-    }
-
-    /// <summary>
     /// Gets the CSV file path using the configured file path service.
-    /// Encapsulates path resolution logic following Single Responsibility.
     /// </summary>
     private string GetCsvFilePath()
     {
-        const string defaultCsvPath = @"Data\ExcelCSV.csv";
-        
+        const string defaultCsvPath =
+            @"C:\Users\Ryanw\OneDrive\Documents\GitHub\CodeReviews.Console.ExcelReader\Data\ExcelCSV.csv";
+
         try
         {
             return _filePathService.GetFilePath(FileType.CSV, defaultCsvPath);
         }
         catch (Exception ex)
         {
-            _notificationService.ShowWarning($"Error getting CSV file path: {ex.Message}. Using default path.");
+            _notificationService.ShowWarning(
+                $"Error getting CSV file path: {ex.Message}. Using default path."
+            );
             return defaultCsvPath;
         }
     }
