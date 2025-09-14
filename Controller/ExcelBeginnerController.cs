@@ -7,25 +7,31 @@ using ExcelReader.RyanW84.Data.Models;
 namespace ExcelReader.RyanW84.Controller;
 
 public class ExcelBeginnerController(
-	IExcelBeginnerService excelBeginnerService ,
-	IExcelReaderDbContext dbContext ,
-	INotificationService notificationService) : DataImportControllerBase(dbContext, notificationService)
+    IExcelBeginnerService excelBeginnerService,
+    IExcelReaderDbContext dbContext,
+    INotificationService notificationService) : DataImportControllerBase(dbContext, notificationService)
 {
     private readonly IExcelBeginnerService _excelBeginnerService = excelBeginnerService ?? throw new ArgumentNullException(nameof(excelBeginnerService));
 
-	public async Task AddDataFromExcel()
+    public async Task AddDataFromExcel()
     {
+        Func<IExcelReaderDbContext, List<ExcelBeginner>, Task> saveOperation = (dbContext, models) =>
+        {
+            dbContext.ExcelBeginner.AddRange(models);
+            return Task.CompletedTask;
+        };
+
         await ExecuteDomainImportAsync(
             _excelBeginnerService,
             "Excel",
             service => service.ReadFromExcel(),
             ConvertDataTableToModels,
-            async (dbContext, models) => dbContext.ExcelBeginner.AddRange(models)
+            saveOperation
         );
     }
 
     private List<ExcelBeginner> ConvertDataTableToModels(DataTable dataTable) =>
-		[.. dataTable.Rows
+        [.. dataTable.Rows
             .Cast<DataRow>()
             .Select(row => new ExcelBeginner
             {

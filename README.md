@@ -1,5 +1,40 @@
 # File Reader (Excel Reader)
+
+[![.NET](https://img.shields.io/badge/.NET-9.0-blue.svg)](https://dotnet.microsoft.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![C#](https://img.shields.io/badge/C%23-13.0-purple.svg)](https://docs.microsoft.com/en-us/dotnet/csharp/)
+
 A comprehensive .NET 9 console application for reading and writing various file formats including Excel, CSV, and PDF files. The application provides a user-friendly console interface for importing data from different file types and managing database operations.
+
+## Table of Contents
+
+- [Requirements](#requirements)
+  - [Core Requirements](#core-requirements)
+- [Challenges](#challenges)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [NuGet Packages](#nuget-packages)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Sample Data Files](#sample-data-files)
+- [Usage Guide](#usage-guide)
+  - [Interactive Menu Options](#interactive-menu-options)
+  - [Example Workflow](#example-workflow)
+- [Configuration](#configuration)
+  - [Database Configuration](#database-configuration-appsettingsjson)
+- [Project Structure](#project-structure)
+- [Key Design Features](#key-design-features)
+  - [Error Handling](#error-handling)
+  - [Performance Optimizations](#performance-optimizations)
+  - [Code Quality](#code-quality)
+- [License & Legal](#license--legal)
+  - [EPPlus License](#epplus-license)
+  - [iText7 License](#itext7-license)
+- [Author](#author)
+- [Contributing](#contributing)
+- [Troubleshooting](#troubleshooting)
+- [Credits](#credits)
 
 ## Requirements
 
@@ -87,25 +122,47 @@ The following NuGet packages are used in this project:
 
 ## Installation
 
-1. Clone the repository "git clone https://github.com/RyanW84/ExcelReader.RyanW84.git"
-2. Change directory into the project folder "cd ExcelReader.RyanW84"
-3. Restore NuGet packages using the following command:
-   "dotnet restore"
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/RyanW84/ExcelReader.RyanW84.git
+   ```
+
+2. Change directory into the project folder:
+   ```bash
+   cd ExcelReader.RyanW84
+   ```
+
+3. Restore NuGet packages:
+   ```bash
+   dotnet restore
+   ```
+
 4. **Configure Database** (Optional)
    - Update connection string in `appsettings.json` if needed
    - Default uses SQL Server LocalDB: `(localdb)\\MSSQLlocaldb`
 
 5. **Build the solution:**
-   "dotnet build"
+   ```bash
+   dotnet build
+   ```
+
 6. Run the application:
-   "dotnet run"
+   ```bash
+   dotnet run
+   ```
+
    Ensure the Excel file is present in the project directory for import functionality
 
 ## Usage
+
 Run the application:
-"dotnet run"
+
+```bash
+dotnet run
+```
 
 The application will present an interactive menu with the following options:
+
 - **Excel: Beginner Import** - Basic Excel file import functionality
 - **Excel: Dynamic Import** - Advanced Excel reading with dynamic structure
 - **Excel: Write** - Write data to Excel files
@@ -153,22 +210,25 @@ When you run the application, you'll see an interactive menu:
 - **Logging** - Adjust logging levels as per your debugging needs
 
 ## Project Structure
-ExcelReader.RyanW84/ 
-├── 📁 Abstractions/           # Interface definitions and contracts <br>
-│   ├── 📁 Base/              # Base interfaces (IRepository, IFileReader) <br>
-│   ├── 📁 Common/            # Common abstractions (FileType, Validation) <br>
-│   ├── 📁 Core/              # Core interfaces (IDataConverter, ITableManager) <br>
-│   ├── 📁 Data/              # Data layer interfaces <br>
-│   ├── 📁 FileOperations/    # File operation interfaces <br>
-│   └── 📁 Services/          # Service layer interfaces <br>
-├── 📁 Controller/            # MVC-style controllers for business logic <br>
-├── 📁 Data/                  # Entity Framework context and configurations <br>
-├── 📁 Helpers/               # Utility classes and extension methods <br>
-├── 📁 Models/                # Data models and entities <br>
-├── 📁 Services/              # Business logic implementations <br>
-├── 📁 UserInterface/         # Console UI components <br>
-├── 📄 Program.cs             # Application entry point and DI configuration <br>
-└── 📄 appsettings.json       # Application configuration<br>
+
+```
+ExcelReader.RyanW84/
+├── 📁 Abstractions/           # Interface definitions and contracts
+│   ├── 📁 Base/              # Base interfaces (IRepository, IFileReader)
+│   ├── 📁 Common/            # Common abstractions (FileType, Validation)
+│   ├── 📁 Core/              # Core interfaces (IDataConverter, ITableManager)
+│   ├── 📁 Data/              # Data layer interfaces
+│   ├── 📁 FileOperations/    # File operation interfaces
+│   └── 📁 Services/          # Service layer interfaces
+├── 📁 Controller/            # MVC-style controllers for business logic
+├── 📁 Data/                  # Entity Framework context and configurations
+├── 📁 Helpers/               # Utility classes and extension methods
+├── 📁 Models/                # Data models and entities
+├── 📁 Services/              # Business logic implementations
+├── 📁 UserInterface/         # Console UI components
+├── 📄 Program.cs             # Application entry point and DI configuration
+└── 📄 appsettings.json       # Application configuration
+```
 
 ## 🧪 Key Design Features
 
@@ -179,7 +239,7 @@ ExcelReader.RyanW84/
 
 ### Performance Optimizations
 - **Async/Await** throughout the application
-- **Bulk Database Operations** for large datasets  
+- **Bulk Database Operations** for large datasets
 - **Memory-efficient** file processing
 - **Connection Pooling** via Entity Framework Core and ADO.NET defaults
 
@@ -209,6 +269,50 @@ Ryan Weavers (RyanW84)
 
 This is a personal learning project. Feel free to fork and modify for your own educational purposes.
 
+## Troubleshooting
+
+### Common Issues
+
+**Database Connection Issues**
+- Ensure SQL Server LocalDB is installed and running
+- Check the connection string in `appsettings.json`
+- Verify you have appropriate database permissions
+
+**File Not Found Errors**
+- Ensure sample data files are present in the `Data/` folder
+- Check file paths and permissions
+- Verify file formats match expected types (.xlsx, .csv, .pdf)
+
+**EPPlus License Issues**
+- EPPlus requires license acceptance for commercial use
+- For personal/educational use, the community license applies
+- See [EPPlus License Details](https://epplussoftware.com/en/Home/LicenseDetails)
+
+**PDF Processing Errors**
+- Ensure PDF files are not password-protected
+- Check that iText7 licenses are properly configured
+- Verify PDF forms are fillable (not scanned images)
+
+**Build Errors**
+```bash
+# Clean and rebuild
+dotnet clean
+dotnet restore
+dotnet build
+```
+
+**Runtime Errors**
+- Check the console output for detailed error messages
+- Ensure all NuGet packages are properly installed
+- Verify .NET 9.0 SDK is installed and up to date
+
+### Getting Help
+
+If you encounter issues not covered here:
+1. Check the console output for error details
+2. Review the [Issues](../../issues) section on GitHub
+3. Ensure you're using compatible versions of all dependencies
+
 ## Credits
 This project was built with the help of the following resources and tutorials:
 
@@ -224,10 +328,3 @@ This project was built with the help of the following resources and tutorials:
 ---
 
 ⭐ **If this project helped you learn something new, please give it a star!** ⭐
-
-
-
-
-
-
-

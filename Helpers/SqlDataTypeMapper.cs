@@ -38,10 +38,21 @@ public static class SqlDataTypeMapper
         if (string.IsNullOrWhiteSpace(columnName))
             return "Col_Unknown";
 
-        var sanitized = InvalidChars.Aggregate(columnName, (current, c) => current.Replace(c, '_'));
+        var sanitized = InvalidChars.Aggregate(columnName.Trim(), (current, c) => current.Replace(c, '_'));
 
-        // Ensure the name starts with a letter
-        return char.IsLetter(sanitized[0]) ? sanitized : $"Col_{sanitized}";
+        // Ensure the name starts with a letter or underscore
+        if (!char.IsLetter(sanitized[0]) && sanitized[0] != '_')
+        {
+            sanitized = $"Col_{sanitized}";
+        }
+
+        // Limit length to SQL Server identifier limit (128 chars)
+        if (sanitized.Length > 128)
+        {
+            sanitized = sanitized.Substring(0, 128);
+        }
+
+        return sanitized;
     }
 
     /// <summary>
@@ -52,9 +63,21 @@ public static class SqlDataTypeMapper
         if (string.IsNullOrWhiteSpace(tableName))
             return "Table_Unknown";
 
-        var sanitized = InvalidChars.Aggregate(tableName, (current, c) => current.Replace(c, '_'));
+        var sanitized = InvalidChars.Aggregate(tableName.Trim(), (current, c) => current.Replace(c, '_'));
 
-        return char.IsLetter(sanitized[0]) ? sanitized : $"Table_{sanitized}";
+        // Ensure the name starts with a letter or underscore
+        if (!char.IsLetter(sanitized[0]) && sanitized[0] != '_')
+        {
+            sanitized = $"Table_{sanitized}";
+        }
+
+        // Limit length to SQL Server identifier limit (128 chars)
+        if (sanitized.Length > 128)
+        {
+            sanitized = sanitized.Substring(0, 128);
+        }
+
+        return sanitized;
     }
 
     /// <summary>

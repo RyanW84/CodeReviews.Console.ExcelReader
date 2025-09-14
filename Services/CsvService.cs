@@ -23,7 +23,7 @@ public class CsvService(
         notificationService ?? throw new ArgumentNullException(nameof(notificationService));
     private readonly IFilePathService _filePathService =
         filePathService ?? throw new ArgumentNullException(nameof(filePathService));
-    private readonly IFilePathValidation _filePathValidation = 
+    private readonly IFilePathValidation _filePathValidation =
         filePathValidation ?? throw new ArgumentNullException(nameof(filePathValidation));
 
     private static readonly CsvConfiguration DefaultConfig = new(CultureInfo.InvariantCulture)
@@ -70,7 +70,7 @@ public class CsvService(
                     foreach (var header in csv.HeaderRecord)
                     {
                         var columnName = string.IsNullOrWhiteSpace(header) ? "Unknown" : header.Trim();
-                        
+
                         // Ensure unique column names
                         if (dataTable.Columns.Contains(columnName))
                         {
@@ -82,7 +82,7 @@ public class CsvService(
                                 counter++;
                             }
                         }
-                        
+
                         dataTable.Columns.Add(columnName);
                     }
                 }
@@ -92,13 +92,13 @@ public class CsvService(
             while (await csv.ReadAsync())
             {
                 var row = dataTable.NewRow();
-                
+
                 for (int i = 0; i < dataTable.Columns.Count; i++)
                 {
                     var fieldValue = csv.GetField(i);
                     row[i] = string.IsNullOrWhiteSpace(fieldValue) ? DBNull.Value : fieldValue.Trim();
                 }
-                
+
                 dataTable.Rows.Add(row);
             }
 
@@ -117,7 +117,7 @@ public class CsvService(
             var fileName = Path.GetFileName(filePath);
             var errorMessage = $"Error reading {fileName}: {ex.Message}";
             _notificationService.ShowError(errorMessage);
-            throw new InvalidOperationException(errorMessage, ex);
+            throw new FileReaderException(errorMessage, filePath, "CSV reading", ex);
         }
     }
 }

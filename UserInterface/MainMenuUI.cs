@@ -26,6 +26,35 @@ public class MainMenuUI(
     private readonly PdfFormController _pdfFormController = pdfFormController;
     private readonly INotificationService _notificationService = notificationService;
 
+    // UI timing constants
+    private const int InitializationDelayMs = 800;
+    private const int MenuTransitionDelayMs = 500;
+    private const int GoodbyeDelayMs = 1500;
+
+    // Operation name constants
+    private const string ExcelBeginnerImport = "Excel: Beginner Import";
+    private const string ExcelDynamicImport = "Excel: Dynamic Import";
+    private const string ExcelWrite = "Excel: Write";
+    private const string CsvImport = "CSV: Import";
+    private const string PdfImport = "PDF: Import";
+    private const string PdfFormImport = "PDF: Form Import";
+    private const string PdfFormWrite = "PDF: Form Write";
+    private const string ExitOption = "Exit";
+
+    // Common messages
+    private const string SelectOperationPrompt = "[bold yellow]Select an operation:[/]";
+    private const string WelcomeMessage = "Welcome to File Reader";
+    private const string InitializedMessage = "File Reader application initialized successfully";
+    private const string ChooseOperationsMessage = "Choose from various file import/export operations below";
+    private const string MainMenuTitle = "File Reader - Main Menu";
+    private const string GoodbyeTitle = "Thank You!";
+    private const string ThankYouMessage = "Thank you for using File Reader!";
+    private const string HaveGreatDayMessage = "Have a great day!";
+    private const string OperationSummaryTitle = "[bold]Operation Summary[/]";
+    private const string ReviewResultsMessage = "[bold yellow]Review the results above before continuing[/]";
+    private const string PressKeyMessage = "[dim]Press any key to return to the main menu...[/]";
+    private const string ReturningMessage = "[dim]Returning to main menu...[/]";
+
     public async Task ShowMenuAsync()
     {
         ShowWelcomeMessage();
@@ -37,24 +66,24 @@ public class MainMenuUI(
 
             var choice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                    .Title("[bold yellow]Select an operation:[/]")
+                    .Title(SelectOperationPrompt)
                     .AddChoices(
                         [
-                            "Excel: Beginner Import",
-                            "Excel: Dynamic Import", 
-                            "Excel: Write",
-                            "CSV: Import",
-                            "PDF: Import",
-                            "PDF: Form Import",
-                            "PDF: Form Write",
-                            "Exit",
+                            ExcelBeginnerImport,
+                            ExcelDynamicImport,
+                            ExcelWrite,
+                            CsvImport,
+                            PdfImport,
+                            PdfFormImport,
+                            PdfFormWrite,
+                            ExitOption,
                         ]
                     )
             );
 
-            if (choice == "Exit")
+            if (choice == ExitOption)
             {
-                ShowGoodbyeMessage();
+                await ShowGoodbyeMessageAsync();
                 exit = true;
                 continue;
             }
@@ -68,25 +97,13 @@ public class MainMenuUI(
         // Show operation startup
         Console.Clear();
         ShowOperationHeader(choice);
-        
+
         var startTime = DateTime.Now;
         var operationSuccess = false;
 
         try
         {
-            // Show operation is starting
-            AnsiConsole.Status()
-                .Start($"Initializing {choice}...", ctx =>
-                {
-                    ctx.Spinner(Spinner.Known.Star);
-                    ctx.SpinnerStyle(Style.Parse("green"));
-                    Thread.Sleep(800); // Brief pause to show initialization
-                });
-
-            _notificationService.ShowInfo($"Starting operation: {choice}");
-            AnsiConsole.WriteLine();
-
-            // Execute the selected operation
+            await ShowOperationInitialization(choice);
             await ExecuteOperation(choice);
             operationSuccess = true;
         }
@@ -95,7 +112,7 @@ public class MainMenuUI(
             operationSuccess = false;
             AnsiConsole.WriteLine();
             _notificationService.ShowError($"Operation failed: {ex.Message}");
-            
+
             // Show additional error details if available
             if (!string.IsNullOrEmpty(ex.InnerException?.Message))
             {
@@ -105,27 +122,42 @@ public class MainMenuUI(
 
         // Show operation completion summary
         ShowOperationSummary(choice, operationSuccess, startTime);
-        
+
         // Wait for user acknowledgment before returning to menu
-        WaitForUserInput();
+        await WaitForUserInputAsync();
+    }
+
+    private async Task ShowOperationInitialization(string choice)
+    {
+        // Show operation is starting
+        await AnsiConsole.Status()
+            .StartAsync($"Initializing {choice}...", async ctx =>
+            {
+                ctx.Spinner(Spinner.Known.Star);
+                ctx.SpinnerStyle(Style.Parse("green"));
+                await Task.Delay(InitializationDelayMs); // Brief pause to show initialization
+            });
+
+        _notificationService.ShowInfo($"Starting operation: {choice}");
+        AnsiConsole.WriteLine();
     }
 
     private void ShowWelcomeMessage()
     {
         Console.Clear();
-        AnsiConsole.Write(new Rule("[bold green]Welcome to File Reader[/]").RuleStyle("green").Centered());
+        AnsiConsole.Write(new Rule($"[bold green]{WelcomeMessage}[/]").RuleStyle("green").Centered());
         AnsiConsole.WriteLine();
-        _notificationService.ShowInfo("File Reader application initialized successfully");
-        _notificationService.ShowInfo("Choose from various file import/export operations below");
+        _notificationService.ShowInfo(InitializedMessage);
+        _notificationService.ShowInfo(ChooseOperationsMessage);
         AnsiConsole.WriteLine();
     }
 
     private void ShowMainMenu()
     {
         Console.Clear();
-        AnsiConsole.Write(new Rule("[yellow]File Reader - Main Menu[/]").RuleStyle("yellow").Centered());
+        AnsiConsole.Write(new Rule(MainMenuTitle).RuleStyle("yellow").Centered());
         AnsiConsole.WriteLine();
-        
+
         // Show available operations with descriptions
         var table = new Table()
             .Border(TableBorder.Rounded)
@@ -150,7 +182,7 @@ public class MainMenuUI(
     {
         AnsiConsole.Write(new Rule($"[bold cyan]Executing: {choice}[/]").RuleStyle("cyan").Centered());
         AnsiConsole.WriteLine();
-        
+
         // Show operation-specific information
         var operationInfo = GetOperationDescription(choice);
         if (!string.IsNullOrEmpty(operationInfo))
@@ -162,22 +194,22 @@ public class MainMenuUI(
 
     private string GetOperationDescription(string choice) => choice switch
     {
-        "Excel: Beginner Import" => "This operation will read data from a basic Excel file and import it to the database.",
-        "Excel: Dynamic Import" => "This operation will analyze Excel file structure and create dynamic database tables.",
-        "Excel: Write" => "This operation will update existing Excel files with data from the database.",
-        "CSV: Import" => "This operation will read CSV files and create corresponding database tables.",
-        "PDF: Import" => "This operation will extract tabular data from PDF documents.",
-        "PDF: Form Import" => "This operation will read data from fillable PDF form fields.",
-        "PDF: Form Write" => "This operation will write data to PDF form fields and update the database.",
+        ExcelBeginnerImport => "This operation will read data from a basic Excel file and import it to the database.",
+        ExcelDynamicImport => "This operation will analyze Excel file structure and create dynamic database tables.",
+        ExcelWrite => "This operation will update existing Excel files with data from the database.",
+        CsvImport => "This operation will read CSV files and create corresponding database tables.",
+        PdfImport => "This operation will extract tabular data from PDF documents.",
+        PdfFormImport => "This operation will read data from fillable PDF form fields.",
+        PdfFormWrite => "This operation will write data to PDF form fields and update the database.",
         _ => string.Empty
     };
 
     private void ShowOperationSummary(string choice, bool success, DateTime startTime)
     {
         var duration = DateTime.Now - startTime;
-        
+
         AnsiConsole.WriteLine();
-        AnsiConsole.Write(new Rule("[bold]Operation Summary[/]").RuleStyle("white").Centered());
+        AnsiConsole.Write(new Rule(OperationSummaryTitle).RuleStyle("white").Centered());
         AnsiConsole.WriteLine();
 
         var summaryTable = new Table()
@@ -204,61 +236,61 @@ public class MainMenuUI(
         }
     }
 
-    private void WaitForUserInput()
+    private async Task WaitForUserInputAsync()
     {
         AnsiConsole.WriteLine();
         AnsiConsole.Write(new Rule().RuleStyle("dim"));
-        
-        AnsiConsole.MarkupLine("[bold yellow]Review the results above before continuing[/]");
-        AnsiConsole.MarkupLine("[dim]Press any key to return to the main menu...[/]");
-        
-        Console.ReadKey(true);
-        
+
+        AnsiConsole.MarkupLine(ReviewResultsMessage);
+        AnsiConsole.MarkupLine(PressKeyMessage);
+
+        await Task.Run(() => Console.ReadKey(true));
+
         // Brief transition message
-        AnsiConsole.MarkupLine("[dim]Returning to main menu...[/]");
-        Thread.Sleep(500);
+        AnsiConsole.MarkupLine(ReturningMessage);
+        await Task.Delay(MenuTransitionDelayMs);
     }
 
-    private void ShowGoodbyeMessage()
+    private async Task ShowGoodbyeMessageAsync()
     {
         Console.Clear();
-        AnsiConsole.Write(new Rule("[bold green]Thank You![/]").RuleStyle("green").Centered());
+        AnsiConsole.Write(new Rule($"[bold green]{GoodbyeTitle}[/]").RuleStyle("green").Centered());
         AnsiConsole.WriteLine();
-        _notificationService.ShowSuccess("Thank you for using File Reader!");
-        _notificationService.ShowInfo("Have a great day!");
+        _notificationService.ShowSuccess(ThankYouMessage);
+        _notificationService.ShowInfo(HaveGreatDayMessage);
         AnsiConsole.WriteLine();
-        Thread.Sleep(1500);
+        await Task.Delay(GoodbyeDelayMs);
     }
 
     private async Task ExecuteOperation(string choice)
     {
         switch (choice)
         {
-            case "Excel: Beginner Import":
+            case ExcelBeginnerImport:
                 _notificationService.ShowInfo("Preparing to import Excel data using beginner mode...");
                 await _excelBeginnerController.AddDataFromExcel();
                 break;
-            case "Excel: Dynamic Import":
+            case ExcelDynamicImport:
                 _notificationService.ShowInfo("Preparing to import Excel data with dynamic schema detection...");
                 await _anyExcelReadController.AddDynamicDataFromExcel();
                 break;
-            case "Excel: Write":
+            case ExcelWrite:
                 _notificationService.ShowInfo("Preparing to write data to Excel file...");
                 await _excelWriteController.UpdateExcelAndDatabaseAsync();
                 break;
-            case "CSV: Import":
+            case CsvImport:
                 _notificationService.ShowInfo("Preparing to import CSV data...");
                 await _csvController.ImportCsvAsync();
                 break;
-            case "PDF: Import":
+            case PdfImport:
                 _notificationService.ShowInfo("Preparing to extract data from PDF tables...");
                 await _pdfController.AddDataFromPdf();
                 break;
-            case "PDF: Form Import":
+            case PdfFormImport:
                 _notificationService.ShowInfo("Preparing to read PDF form data...");
                 await _pdfFormController.ImportDataFromPdfForm();
                 break;
-            case "PDF: Form Write":
+            case PdfFormWrite:
                 _notificationService.ShowInfo("Preparing to write data to PDF form...");
                 await _pdfFormWriteController.UpdatePdfFormAndDatabaseAsync();
                 break;

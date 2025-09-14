@@ -23,24 +23,27 @@ public class CreateTableFromPdfForm : IPdfFormTableCreator
         using var connection = new SqlConnection(connectionString);
         await connection.OpenAsync();
 
-        // Build CREATE TABLE statement
+        // Build CREATE TABLE statement with proper sanitization
         var columnDefs = new List<string>();
         foreach (DataColumn col in dataTable.Columns)
         {
-            columnDefs.Add($"[{col.ColumnName}] NVARCHAR(MAX)");
+            var sanitizedColumnName = SqlDataTypeMapper.SanitizeColumnName(col.ColumnName);
+            columnDefs.Add($"[{sanitizedColumnName}] NVARCHAR(MAX)");
         }
-        var createTableSql =
-            $"IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='{dataTable.TableName}') " +
-            $"CREATE TABLE [{dataTable.TableName}] ({string.Join(", " , columnDefs)})";
 
-        using (var command = new SqlCommand(createTableSql , connection))
+        var sanitizedTableName = SqlDataTypeMapper.SanitizeTableName(dataTable.TableName);
+        var createTableSql =
+            $"IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='{sanitizedTableName}') " +
+            $"CREATE TABLE [{sanitizedTableName}] ({string.Join(", ", columnDefs)})";
+
+        using (var command = new SqlCommand(createTableSql, connection))
         {
             await command.ExecuteNonQueryAsync();
         }
 
         // Bulk copy the data
         using var bulkCopy = new SqlBulkCopy(connection);
-        bulkCopy.DestinationTableName = dataTable.TableName;
+        bulkCopy.DestinationTableName = sanitizedTableName;
         await bulkCopy.WriteToServerAsync(dataTable);
     }
 
