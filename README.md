@@ -18,17 +18,17 @@ A comprehensive .NET 9 console application for reading and writing various file 
 - [Installation](#installation)
 - [Usage](#usage)
   - [Sample Data Files](#sample-data-files)
-- [Usage Guide](#usage-guide)
+- [📋 Usage Guide](#usage-guide)
   - [Interactive Menu Options](#interactive-menu-options)
   - [Example Workflow](#example-workflow)
-- [Configuration](#configuration)
+- [⚙️ Configuration](#configuration)
   - [Database Configuration](#database-configuration-appsettingsjson)
 - [Project Structure](#project-structure)
-- [Key Design Features](#key-design-features)
+- [🧪 Key Design Features](#key-design-features)
   - [Error Handling](#error-handling)
   - [Performance Optimizations](#performance-optimizations)
   - [Code Quality](#code-quality)
-- [License & Legal](#license--legal)
+- [📄 License & Legal](#license--legal)
   - [EPPlus License](#epplus-license)
   - [iText7 License](#itext7-license)
 - [Author](#author)
@@ -64,30 +64,30 @@ This is an application that will read data from an Excel spreadsheet into a data
 
 ## Features
 
-- **Excel Operations**
-  - Beginner Excel import functionality
-  - Dynamic Excel reading and writing
-  - Support for multiple worksheets
-  - Excel file creation and modification
+### Excel Operations
+- Beginner Excel import functionality
+- Dynamic Excel reading and writing
+- Support for multiple worksheets
+- Excel file creation and modification
 
-- **CSV Operations**
-  - CSV file reading and importing
-  - Data conversion to database tables
+### CSV Operations
+- CSV file reading and importing
+- Data conversion to database tables
 
-- **PDF Operations**
-  - PDF table extraction and import
-  - PDF form reading and writing
-  - Form field manipulation
+### PDF Operations
+- PDF table extraction and import
+- PDF form reading and writing
+- Form field manipulation
 
-- **Database Integration**
-  - Entity Framework Core with SQL Server
-  - Automatic table creation
-  - Data persistence and retrieval
+### Database Integration
+- Entity Framework Core with SQL Server
+- Automatic table creation
+- Data persistence and retrieval
 
-- **User Interface**
-  - Interactive console menu using Spectre.Console
-  - Color-coded output and notifications
-  - Error handling and user feedback
+### User Interface
+- Interactive console menu using Spectre.Console
+- Color-coded output and notifications
+- Error handling and user feedback
 
 ## Technology Stack
 

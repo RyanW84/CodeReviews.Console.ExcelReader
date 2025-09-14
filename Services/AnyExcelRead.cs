@@ -53,6 +53,14 @@ public class AnyExcelRead(IFilePathService filePathManager, INotificationService
             ExcelPackage.License.SetNonCommercialPersonal("Ryan Weavers");
 
             using var package = new ExcelPackage(new FileInfo(filePath));
+
+            // Check if the workbook has any worksheets
+            if (package.Workbook.Worksheets.Count == 0)
+            {
+                _userNotifier.ShowError("The Excel file contains no worksheets.");
+                return new DataTable();
+            }
+
             ExcelWorksheet worksheet = package.Workbook.Worksheets[0]; // Get first worksheet
 
             var dataTable = new DataTable();
@@ -131,7 +139,7 @@ public class AnyExcelRead(IFilePathService filePathManager, INotificationService
         });
     }
 
-  
+
     // New synchronous overload that accepts file path
     public DataTable ReadFromExcel(string filePath)
     {

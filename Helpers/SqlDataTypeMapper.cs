@@ -40,6 +40,10 @@ public static class SqlDataTypeMapper
 
         var sanitized = InvalidChars.Aggregate(columnName.Trim(), (current, c) => current.Replace(c, '_'));
 
+        // Check if sanitized is empty after trimming
+        if (string.IsNullOrEmpty(sanitized))
+            return "Col_Unknown";
+
         // Ensure the name starts with a letter or underscore
         if (!char.IsLetter(sanitized[0]) && sanitized[0] != '_')
         {
@@ -64,6 +68,10 @@ public static class SqlDataTypeMapper
             return "Table_Unknown";
 
         var sanitized = InvalidChars.Aggregate(tableName.Trim(), (current, c) => current.Replace(c, '_'));
+
+        // Check if sanitized is empty after trimming
+        if (string.IsNullOrEmpty(sanitized))
+            return "Table_Unknown";
 
         // Ensure the name starts with a letter or underscore
         if (!char.IsLetter(sanitized[0]) && sanitized[0] != '_')
